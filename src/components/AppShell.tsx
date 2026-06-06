@@ -1,8 +1,9 @@
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { Bell, Home, LayoutDashboard, LogOut, Mail, Search, Settings, Sparkles } from "lucide-react";
+import { Bell, Home, LayoutDashboard, LogOut, Mail, Moon, Search, Settings, Sparkles, Sun } from "lucide-react";
 import { type ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
+import { useTheme } from "@/lib/theme";
 
 const nav = [
   { to: "/home", label: "Home", icon: Home },
@@ -74,6 +75,13 @@ export function AppShell({ children }: { children: ReactNode }) {
               className="h-9 w-full max-w-md rounded-lg border border-border bg-card/60 pl-9 pr-3 text-sm outline-none placeholder:text-muted-foreground focus:border-primary/50"
             />
           </div>
+          <button
+            onClick={toggleTheme}
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card/60 text-muted-foreground transition-colors hover:text-foreground"
+            aria-label="Toggle theme"
+          >
+            {resolvedTheme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
           <button className="relative flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card/60 text-muted-foreground hover:text-foreground">
             <Bell className="h-4 w-4" />
             <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">3</span>
