@@ -33,8 +33,7 @@ function Dashboard() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        <div className="glass-card relative overflow-hidden p-6 lg:col-span-2">
-          <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl" />
+        <div className="rounded-2xl border border-border bg-card/60 p-6 backdrop-blur-xl shadow-[var(--shadow-card)] lg:col-span-2">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-medium">Email Activity — This Week</h3>
             <span className="text-xs text-muted-foreground">Synced 2 min ago</span>
@@ -58,8 +57,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="glass-card relative overflow-hidden p-6">
-          <div className="absolute -left-10 -bottom-10 h-48 w-48 rounded-full bg-primary-glow/20 blur-3xl" />
+        <div className="rounded-2xl border border-border bg-card/60 p-6 backdrop-blur-xl shadow-[var(--shadow-card)]">
           <div className="mb-4 flex items-center justify-between">
             <h3 className="text-sm font-medium">AI Activity Timeline</h3>
             <button className="text-xs text-primary hover:underline">View all</button>
@@ -92,8 +90,7 @@ function Dashboard() {
         </div>
       </div>
 
-      <div className="glass-card relative overflow-hidden p-6">
-        <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-primary/15 blur-3xl" />
+      <div className="rounded-2xl border border-border bg-card/60 p-6 backdrop-blur-xl shadow-[var(--shadow-card)]">
         <h3 className="mb-4 text-sm font-medium">Workspace Insights — 30 days</h3>
         <div className="h-56">
           <ResponsiveContainer width="100%" height="100%">

@@ -40,9 +40,8 @@ function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.06 }}
               whileHover={{ y: -3 }}
-              className="glass-card relative overflow-hidden p-5"
+              className="rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-xl shadow-[var(--shadow-card)]"
             >
-              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/20 blur-3xl" />
               <div className={`mb-4 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 ${c.tone}`}>
                 <Icon className="h-5 w-5" />
               </div>
@@ -58,10 +57,8 @@ function Home() {
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="glass-card relative overflow-hidden p-8"
+        className="rounded-3xl border border-border bg-card/60 p-8 backdrop-blur-xl shadow-[var(--shadow-card)]"
       >
-        <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/25 blur-3xl" />
-        <div className="absolute -bottom-24 -left-10 h-64 w-64 rounded-full bg-primary-glow/20 blur-3xl" />
         <div className="grid items-center gap-8 md:grid-cols-2">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-primary">Signature Insight</p>
