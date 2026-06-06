@@ -36,8 +36,9 @@ function GmailPage() {
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mx-auto max-w-2xl rounded-3xl border border-border bg-card/70 p-8 backdrop-blur-xl shadow-[var(--shadow-card)]"
+        className="glass-card relative mx-auto max-w-2xl overflow-hidden p-8"
       >
+        <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-primary/20 blur-3xl" />
         {isLoading ? (
           <div className="flex items-center justify-center py-6 text-muted-foreground">
             <Loader2 className="h-5 w-5 animate-spin" />
