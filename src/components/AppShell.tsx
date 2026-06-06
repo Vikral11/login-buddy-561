@@ -16,6 +16,7 @@ const nav = [
 export function AppShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
   const { user, logout } = useAuth();
+  const { resolvedTheme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   return (
