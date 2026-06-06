@@ -45,9 +45,10 @@ export function MetricCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.06, duration: 0.4, ease: "easeOut" }}
       whileHover={{ y: -3 }}
-      className="group relative overflow-hidden rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-xl shadow-[var(--shadow-card)]"
+      className="glass-card group relative overflow-hidden p-5"
     >
-      <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 blur-3xl transition-opacity group-hover:opacity-80" />
+      <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-primary/25 blur-3xl transition-opacity group-hover:opacity-100" />
+      <div className="absolute -bottom-16 -left-10 h-32 w-32 rounded-full bg-primary-glow/20 blur-3xl opacity-60" />
       <div className="relative flex items-start justify-between">
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground">{label}</p>

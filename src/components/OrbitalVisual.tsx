@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
-import { Mail, Shield, Sparkles, Target, TrendingUp, Zap } from "lucide-react";
+import { Brain, Mail, Shield, Sparkles, Target, TrendingUp, Zap } from "lucide-react";
 
 const nodes = [
-  { icon: Target, label: "Priority Detection", angle: 0 },
+  { icon: Target, label: "Priority", angle: 0 },
   { icon: Sparkles, label: "AI Analysis", angle: 60 },
   { icon: TrendingUp, label: "Productivity", angle: 120 },
   { icon: Zap, label: "Opportunity", angle: 180 },
@@ -14,17 +14,29 @@ export function OrbitalVisual({ size = 460 }: { size?: number }) {
   const radius = size * 0.38;
   return (
     <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
-      {/* glow rings */}
-      <div className="absolute inset-0 rounded-full" style={{ background: "radial-gradient(circle, oklch(0.65 0.22 285 / 0.25), transparent 60%)" }} />
+      {/* ambient halo */}
+      <div className="absolute inset-0 rounded-full" style={{ background: "radial-gradient(circle, oklch(0.65 0.22 285 / 0.35), transparent 60%)" }} />
+      <div className="absolute h-[70%] w-[70%] animate-pulse-glow rounded-full" style={{ background: "radial-gradient(circle, oklch(0.7 0.22 295 / 0.5), transparent 65%)" }} />
+
       {[0.55, 0.75, 0.95].map((s, i) => (
         <motion.div
           key={i}
-          className="absolute rounded-full border border-primary/20"
+          className="absolute rounded-full border border-dashed border-primary/30"
           style={{ width: size * s, height: size * s }}
           animate={{ rotate: i % 2 ? -360 : 360 }}
           transition={{ duration: 40 + i * 10, repeat: Infinity, ease: "linear" }}
         />
       ))}
+
+      {/* tilted orbit ring (3D feel) */}
+      <div
+        className="absolute rounded-full border border-primary/40"
+        style={{
+          width: size * 1.02, height: size * 0.45,
+          transform: "rotateX(70deg)",
+          boxShadow: "0 0 60px oklch(0.65 0.22 285 / 0.5) inset",
+        }}
+      />
 
       {/* orbiting nodes */}
       <motion.div
@@ -84,9 +96,22 @@ export function OrbitalVisual({ size = 460 }: { size?: number }) {
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
       >
-        <div className="absolute h-40 w-40 rounded-full bg-primary/40 blur-3xl" />
-        <div className="relative flex h-28 w-28 items-center justify-center rounded-3xl border border-primary/50 bg-gradient-to-br from-primary to-primary-glow shadow-[var(--shadow-glow)]">
-          <Mail className="h-12 w-12 text-primary-foreground" />
+        <div className="absolute h-48 w-48 rounded-full bg-primary/50 blur-3xl" />
+        {/* glass pedestal */}
+        <div className="absolute -bottom-10 h-6 w-40 rounded-full bg-primary/30 blur-2xl" />
+        <div className="relative flex h-32 w-32 items-center justify-center rounded-[2rem] border border-white/20 bg-gradient-to-br from-white/95 to-white/80 shadow-[0_25px_60px_-10px_oklch(0.65_0.22_285/0.7)] backdrop-blur-xl">
+          <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-primary/10 to-transparent" />
+          {/* Gmail-like mark */}
+          <svg viewBox="0 0 64 48" className="relative h-14 w-14">
+            <path d="M4 8 L32 28 L60 8 L60 42 L48 42 L48 22 L32 34 L16 22 L16 42 L4 42 Z" fill="url(#gm)" />
+            <defs>
+              <linearGradient id="gm" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0" stopColor="oklch(0.55 0.22 285)" />
+                <stop offset="1" stopColor="oklch(0.65 0.22 320)" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <Brain className="absolute -right-2 -top-2 h-5 w-5 text-primary drop-shadow-[0_0_10px_oklch(0.7_0.22_295)]" />
         </div>
       </motion.div>
     </div>
