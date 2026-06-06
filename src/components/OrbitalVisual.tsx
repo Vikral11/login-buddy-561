@@ -92,4 +92,3 @@ export function OrbitalVisual({ size = 460 }: { size?: number }) {
     </div>
   );
 }
-*** End Patch

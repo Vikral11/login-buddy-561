@@ -26,4 +26,3 @@ export const gmailService = {
     return status;
   },
 };
-*** End Patch

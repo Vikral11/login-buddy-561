@@ -63,4 +63,3 @@ export function MetricCard({
     </motion.div>
   );
 }
-*** End Patch

@@ -54,4 +54,3 @@ export function AuthLayout({ children, heading, sub }: { children: ReactNode; he
     </div>
   );
 }
-*** End Patch

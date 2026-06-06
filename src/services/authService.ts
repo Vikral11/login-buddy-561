@@ -15,4 +15,3 @@ export const authService = {
     return { token: "mock", user: { id: "u_1", name: payload.name, email: payload.email, role: payload.role } };
   },
 };
-*** End Patch
