@@ -5,7 +5,7 @@ import heroImg from "@/assets/login-hero.jpg";
 
 export function AuthLayout({ children, heading, sub }: { children: ReactNode; heading: string; sub: string }) {
   return (
-    <div className="grid min-h-screen lg:grid-cols-2">
+    <div className="grid min-h-screen lg:[grid-template-columns:65%_35%]">
       <div className="relative hidden overflow-hidden border-r border-border lg:flex lg:flex-col lg:justify-between lg:p-12">
         {/* Ambient backdrop */}
         <div className="pointer-events-none absolute inset-0">
@@ -77,14 +77,33 @@ export function AuthLayout({ children, heading, sub }: { children: ReactNode; he
         </div>
       </div>
 
-      <div className="flex items-center justify-center px-6 py-10 lg:px-16">
+      <div className="relative flex items-center px-6 py-10 lg:items-center lg:justify-end lg:px-10">
+        {/* Ambient purple glow behind card */}
+        <div className="pointer-events-none absolute inset-0 hidden lg:block">
+          <div
+            className="glow-orb"
+            style={{
+              width: 520,
+              height: 520,
+              top: "50%",
+              right: -120,
+              transform: "translateY(-50%)",
+              background:
+                "radial-gradient(circle, oklch(0.6 0.22 290 / 0.45), transparent 70%)",
+            }}
+          />
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="w-full max-w-md"
+          className="glass-card relative z-10 w-full max-w-md p-8 lg:p-10"
+          style={{
+            boxShadow:
+              "0 1px 0 0 color-mix(in oklab, white 10%, transparent) inset, 0 40px 80px -20px oklch(0.55 0.22 285 / 0.45), 0 10px 40px -12px oklch(0.1 0.02 270 / 0.7)",
+          }}
         >
-          <div className="mb-8 lg:hidden">
+          <div className="mb-6 lg:hidden">
             <div className="flex items-center gap-2">
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-glow">
                 <Sparkles className="h-4 w-4 text-primary-foreground" />
