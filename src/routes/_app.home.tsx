@@ -163,6 +163,7 @@ function Home() {
             const { Icon } = it;
             const status: Status = state[it.provider].connected ? "connected" : "not_connected";
             const buttonLabel = status === "connected" ? `Manage ${it.name}` : `Connect ${it.name}`;
+            const targetHref = status === "connected" ? `${it.href}/manage` : it.href;
             return (
               <motion.div
                 key={it.name}
@@ -192,7 +193,7 @@ function Home() {
                 </div>
                 <div className="relative mt-auto flex gap-2 px-5 pb-5">
                   <Link
-                    to={it.href}
+                    to={targetHref}
                     className={`flex h-10 flex-1 items-center justify-center rounded-xl border text-sm font-medium transition-colors ${
                       status === "connected"
                         ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-400"
@@ -202,7 +203,7 @@ function Home() {
                     {buttonLabel}
                   </Link>
                   <Link
-                    to={it.href}
+                    to={targetHref}
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground"
                     aria-label={`Open ${it.name}`}
                   >
