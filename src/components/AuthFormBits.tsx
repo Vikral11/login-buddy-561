@@ -54,14 +54,20 @@ export function Divider() {
   );
 }
 
-export function TrustFooter({ compact = false }: { compact?: boolean }) {
+export function TrustFooter({
+  compact = false,
+  layoutClassName,
+}: {
+  compact?: boolean;
+  layoutClassName?: string;
+}) {
   const items = [
     { icon: ShieldCheck, color: "#6C4DFF", bg: "rgba(108,77,255,0.10)", label: "Secure & Private", desc: "Your data is encrypted and protected." },
     { icon: Lock, color: "#16A34A", bg: "rgba(22,163,74,0.10)", label: "You're in Control", desc: "Connect, manage and disconnect anytime." },
     { icon: Sparkles, color: "#F59E0B", bg: "rgba(245,158,11,0.12)", label: "Built for Productivity", desc: "Automate, organize and achieve more." },
   ];
   return (
-    <div className={`grid grid-cols-1 gap-2.5 sm:grid-cols-3 ${compact ? "sm:gap-2.5" : "sm:gap-3"}`}>
+    <div className={`grid ${layoutClassName ?? "grid-cols-1 sm:grid-cols-3"} gap-2.5 ${compact ? "sm:gap-2.5" : "sm:gap-3"}`}>
       {items.map((it) => {
         const Icon = it.icon;
         return (
