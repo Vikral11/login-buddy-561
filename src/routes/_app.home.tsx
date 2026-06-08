@@ -160,7 +160,7 @@ function Home() {
           <p className="text-sm text-muted-foreground">Integrate your favorite platforms and never miss an important update.</p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 items-stretch">
           {integrations.map((it, i) => {
             const { Icon } = it;
             return (
@@ -169,10 +169,10 @@ function Home() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.06 }}
-                className="relative overflow-hidden rounded-2xl border border-border bg-card/70 p-5 backdrop-blur-xl shadow-[var(--shadow-card)]"
+                className="relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/70 backdrop-blur-xl shadow-[var(--shadow-card)]"
               >
                 <div className={`pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b ${it.trendColor}`} />
-                <div className="relative">
+                <div className="relative flex flex-1 flex-col p-5">
                   <div className="flex items-start justify-between">
                     <div className={`flex h-10 w-10 items-center justify-center rounded-xl bg-background ${it.accent}`}>
                       <Icon className="h-6 w-6" />
@@ -189,25 +189,25 @@ function Home() {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-5 flex gap-2">
-                    <Link
-                      to={it.href}
-                      className={`flex h-10 flex-1 items-center justify-center rounded-xl border text-sm font-medium transition-colors ${
-                        it.status === "connected"
-                          ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-400"
-                          : "border-primary/30 bg-primary/10 text-primary hover:bg-primary/20"
-                      }`}
-                    >
-                      {it.buttonLabel}
-                    </Link>
-                    <Link
-                      to={it.href}
-                      className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground"
-                      aria-label={`Open ${it.name}`}
-                    >
-                      <ExternalLink className="h-4 w-4" />
-                    </Link>
-                  </div>
+                </div>
+                <div className="relative mt-auto flex gap-2 px-5 pb-5">
+                  <Link
+                    to={it.href}
+                    className={`flex h-10 flex-1 items-center justify-center rounded-xl border text-sm font-medium transition-colors ${
+                      it.status === "connected"
+                        ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-400"
+                        : "border-primary/30 bg-primary/10 text-primary hover:bg-primary/20"
+                    }`}
+                  >
+                    {it.buttonLabel}
+                  </Link>
+                  <Link
+                    to={it.href}
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground"
+                    aria-label={`Open ${it.name}`}
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
                 </div>
               </motion.div>
             );
