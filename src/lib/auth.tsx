@@ -4,16 +4,17 @@ export type User = {
   id: string;
   name: string;
   email: string;
-  role: "User" | "Admin";
+  role: string;
 };
 
 type AuthCtx = {
   user: User | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (data: { name: string; email: string; password: string; role: "User" | "Admin" }) => Promise<void>;
+  register: (data: { name: string; email: string; password: string; role: string }) => Promise<void>;
   logout: () => void;
 };
+
 
 const Ctx = createContext<AuthCtx | null>(null);
 const STORAGE_KEY = "curdai.user";
