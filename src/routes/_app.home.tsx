@@ -18,6 +18,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { useIntegrations, type Provider } from "@/lib/integrations";
 
 export const Route = createFileRoute("/_app/home")({
   head: () => ({ meta: [{ title: "Home — Agentic" }] }),
@@ -26,48 +27,44 @@ export const Route = createFileRoute("/_app/home")({
 
 type Status = "connected" | "not_connected";
 type Integration = {
+  provider: Provider;
   name: "Gmail" | "LinkedIn" | "Instagram";
-  status: Status;
   description: string;
   bullets: { label: string }[];
   accent: string;
   trendColor: string;
-  buttonLabel: string;
   href: string;
   Icon: React.ComponentType<{ className?: string }>;
 };
 
 const integrations: Integration[] = [
   {
+    provider: "gmail",
     name: "Gmail",
-    status: "connected",
     description: "Sync your emails, get AI summaries, and never miss important conversations.",
     bullets: [{ label: "201 emails imported" }, { label: "Live sync active" }],
     accent: "text-red-500",
     trendColor: "from-emerald-400/40 to-transparent",
-    buttonLabel: "Connect Gmail",
     href: "/integrations/gmail",
     Icon: Mail,
   },
   {
+    provider: "linkedin",
     name: "LinkedIn",
-    status: "not_connected",
     description: "Track messages, job opportunities, and important updates.",
     bullets: [{ label: "Message sync" }, { label: "Job alerts" }, { label: "Connection updates" }],
     accent: "text-blue-600",
     trendColor: "from-sky-400/40 to-transparent",
-    buttonLabel: "Connect LinkedIn",
     href: "/integrations/linkedin",
     Icon: Linkedin,
   },
   {
+    provider: "instagram",
     name: "Instagram",
-    status: "not_connected",
     description: "Monitor DMs, comments, and important engagements.",
     bullets: [{ label: "DM sync" }, { label: "Comment tracking" }, { label: "Activity insights" }],
     accent: "text-pink-500",
     trendColor: "from-pink-400/40 to-transparent",
-    buttonLabel: "Connect Instagram",
     href: "/integrations/instagram",
     Icon: Instagram,
   },
@@ -120,6 +117,7 @@ function Heartbeat() {
 function Home() {
   const { user } = useAuth();
   const name = user?.name ?? "there";
+  const { state } = useIntegrations();
 
   return (
     <div className="space-y-8">
@@ -163,6 +161,8 @@ function Home() {
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 items-stretch">
           {integrations.map((it, i) => {
             const { Icon } = it;
+            const status: Status = state[it.provider].connected ? "connected" : "not_connected";
+            const buttonLabel = status === "connected" ? `Manage ${it.name}` : `Connect ${it.name}`;
             return (
               <motion.div
                 key={it.name}
@@ -180,7 +180,7 @@ function Home() {
                   </div>
                   <h3 className="mt-5 text-lg font-semibold tracking-tight">{it.name}</h3>
                   <p className="mt-1 text-[13px] leading-snug text-muted-foreground">{it.description}</p>
-                  <div className="mt-3"><StatusBadge status={it.status} /></div>
+                  <div className="mt-3"><StatusBadge status={status} /></div>
                   <ul className="mt-4 space-y-1.5">
                     {it.bullets.map((b) => (
                       <li key={b.label} className="flex items-center gap-2 text-[12.5px] text-muted-foreground">
@@ -194,12 +194,12 @@ function Home() {
                   <Link
                     to={it.href}
                     className={`flex h-10 flex-1 items-center justify-center rounded-xl border text-sm font-medium transition-colors ${
-                      it.status === "connected"
+                      status === "connected"
                         ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-400"
                         : "border-primary/30 bg-primary/10 text-primary hover:bg-primary/20"
                     }`}
                   >
-                    {it.buttonLabel}
+                    {buttonLabel}
                   </Link>
                   <Link
                     to={it.href}
@@ -280,6 +280,7 @@ function Home() {
             <ul className="space-y-3">
               {integrations.map((it) => {
                 const { Icon } = it;
+                const status: Status = state[it.provider].connected ? "connected" : "not_connected";
                 return (
                   <li key={it.name} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -288,7 +289,7 @@ function Home() {
                       </div>
                       <p className="text-sm font-medium">{it.name}</p>
                     </div>
-                    <StatusBadge status={it.status} />
+                    <StatusBadge status={status} />
                   </li>
                 );
               })}
