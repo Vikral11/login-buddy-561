@@ -39,7 +39,7 @@ function LoginPage() {
       heading={<>Welcome Back <span aria-hidden>👋</span></>}
       subtitle="Sign in to your Agentic workspace."
     >
-      <form onSubmit={submit} className="space-y-5">
+      <form onSubmit={submit} className="space-y-4">
         <AuthField label="Email Address">
           <AuthInput
             icon={Mail}
@@ -73,7 +73,7 @@ function LoginPage() {
         <motion.button
           whileTap={{ scale: 0.985 }}
           disabled={loading}
-          className="group flex h-[56px] w-full items-center justify-center gap-2 rounded-2xl text-[15.5px] font-semibold text-white transition-all hover:shadow-xl disabled:opacity-60"
+          className="group flex h-[52px] w-full items-center justify-center gap-2 rounded-xl text-[14.5px] font-semibold text-white transition-all hover:shadow-xl disabled:opacity-60"
           style={{
             background: "linear-gradient(135deg, #6C4DFF 0%, #8F7CFF 100%)",
             boxShadow: "0 18px 38px -12px rgba(108,77,255,0.6)",
