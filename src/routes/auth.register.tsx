@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Loader2, Check } from "lucide-react";
+import { ArrowRight, Loader2, Check, Mail, Lock, User } from "lucide-react";
 import { AuthLayout } from "@/components/AuthLayout";
 import { useAuth } from "@/lib/auth";
 import { AuthField, AuthInput, Divider, TrustFooter } from "@/components/AuthFormBits";
@@ -44,17 +44,17 @@ function RegisterPage() {
     >
       <form onSubmit={submit} className="space-y-4">
         <AuthField label="Full Name">
-          <AuthInput value={form.name} onChange={set("name")} placeholder="Ada Lovelace" autoComplete="name" />
+          <AuthInput icon={User} value={form.name} onChange={set("name")} placeholder="Your full name" autoComplete="name" />
         </AuthField>
         <AuthField label="Email Address">
-          <AuthInput type="email" value={form.email} onChange={set("email")} placeholder="you@company.com" autoComplete="email" />
+          <AuthInput icon={Mail} type="email" value={form.email} onChange={set("email")} placeholder="Enter your email address" autoComplete="email" />
         </AuthField>
         <div className="grid grid-cols-2 gap-3">
           <AuthField label="Password">
-            <AuthInput type="password" value={form.password} onChange={set("password")} placeholder="••••••••" autoComplete="new-password" />
+            <AuthInput icon={Lock} type="password" value={form.password} onChange={set("password")} placeholder="••••••••" autoComplete="new-password" />
           </AuthField>
           <AuthField label="Confirm Password">
-            <AuthInput type="password" value={form.confirm} onChange={set("confirm")} placeholder="••••••••" autoComplete="new-password" />
+            <AuthInput icon={Lock} type="password" value={form.confirm} onChange={set("confirm")} placeholder="••••••••" autoComplete="new-password" />
           </AuthField>
         </div>
 
@@ -83,10 +83,10 @@ function RegisterPage() {
         <motion.button
           whileTap={{ scale: 0.985 }}
           disabled={loading}
-          className="group flex h-[52px] w-full items-center justify-center gap-2 rounded-2xl text-[15px] font-semibold text-white transition-all hover:shadow-lg disabled:opacity-60"
+          className="group flex h-[56px] w-full items-center justify-center gap-2 rounded-2xl text-[15.5px] font-semibold text-white transition-all hover:shadow-xl disabled:opacity-60"
           style={{
             background: "linear-gradient(135deg, #6C4DFF 0%, #8F7CFF 100%)",
-            boxShadow: "0 14px 32px -12px rgba(108,77,255,0.55)",
+            boxShadow: "0 18px 38px -12px rgba(108,77,255,0.6)",
           }}
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
