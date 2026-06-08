@@ -96,8 +96,7 @@ export function IntegrationWizard({ config }: { config: WizardConfig }) {
     // Persist connection (ready for FastAPI: POST /integrations/{provider}/connect)
     integrations.connect(config.provider, form);
     setTestStatus("success");
-    // Auto-redirect to dashboard
-    setTimeout(() => navigate({ to: "/home" }), 1400);
+    // No auto-redirect — user must click Done explicitly.
   };
 
   const handleDisconnect = () => {
@@ -306,8 +305,13 @@ export function IntegrationWizard({ config }: { config: WizardConfig }) {
                         </dl>
                       </div>
                     </div>
-                    <div className="mt-5 flex justify-end gap-2">
-                      <button onClick={() => navigate({ to: "/home" })} className={secondaryBtn}>Done</button>
+                    <div className="mt-6 flex justify-end">
+                      <button
+                        onClick={() => navigate({ to: "/home" })}
+                        className={primaryBtn + " px-8 py-3 text-base"}
+                      >
+                        <CheckCircle2 className="h-5 w-5" /> Done
+                      </button>
                     </div>
                   </div>
                 )}
