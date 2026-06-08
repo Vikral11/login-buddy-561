@@ -52,21 +52,50 @@ function RegisterPage() {
       heading="Create Your Agentic Account"
       subtitle="Start managing all your communication channels from one place."
     >
-      <form onSubmit={submit} className="space-y-4">
-        <AuthField label="Full Name">
-          <AuthInput icon={User} value={form.name} onChange={set("name")} placeholder="Your full name" autoComplete="name" />
-        </AuthField>
-        <AuthField label="Email Address">
-          <AuthInput icon={Mail} type="email" value={form.email} onChange={set("email")} placeholder="Enter your email address" autoComplete="email" />
-        </AuthField>
+      <form onSubmit={submit} className="space-y-5" noValidate>
+        <div className="space-y-3.5">
+          <AuthField label="Full Name">
+            <AuthInput
+              icon={User}
+              id="name"
+              name="name"
+              autoComplete="name"
+              value={form.name}
+              onChange={set("name")}
+              placeholder="Your full name"
+              aria-label="Full name"
+              required
+            />
+          </AuthField>
+          <AuthField label="Email Address">
+            <AuthInput
+              icon={Mail}
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              value={form.email}
+              onChange={set("email")}
+              placeholder="Enter your email address"
+              aria-label="Email address"
+              required
+            />
+          </AuthField>
+        </div>
+
         <AuthField label="Role">
           <div className="relative">
             <Briefcase className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[#CBD5E1]" />
             <select
+              id="role"
+              name="role"
+              autoComplete="organization-title"
+              aria-label="Role"
+              required
               value={form.role}
               onChange={(e) => setForm({ ...form, role: e.target.value as Role })}
               className={
-                "block h-[52px] w-full appearance-none rounded-xl border bg-white pl-11 pr-10 text-[14px] outline-none transition-all border-[#E5E7EB] focus:border-[#6C4DFF] focus:ring-2 focus:ring-[rgba(108,77,255,0.15)] " +
+                "block h-[52px] w-full appearance-none rounded-xl border bg-white pl-11 pr-10 text-[14px] outline-none transition-all duration-200 border-[#E5E7EB] focus:border-[#6C4DFF] focus:ring-2 focus:ring-[rgba(108,77,255,0.15)] " +
                 (form.role ? "text-[#0F172A]" : "text-[#94A3B8]")
               }
             >
@@ -80,21 +109,48 @@ function RegisterPage() {
             <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[#94A3B8]" />
           </div>
         </AuthField>
-        <div className="grid grid-cols-2 gap-3">
+
+        <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
           <AuthField label="Password">
-            <AuthInput icon={Lock} type="password" value={form.password} onChange={set("password")} placeholder="••••••••" autoComplete="new-password" />
+            <AuthInput
+              icon={Lock}
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="new-password"
+              value={form.password}
+              onChange={set("password")}
+              placeholder="••••••••"
+              aria-label="Password"
+              required
+              minLength={8}
+            />
           </AuthField>
           <AuthField label="Confirm Password">
-            <AuthInput icon={Lock} type="password" value={form.confirm} onChange={set("confirm")} placeholder="••••••••" autoComplete="new-password" />
+            <AuthInput
+              icon={Lock}
+              id="confirm_password"
+              name="confirm_password"
+              type="password"
+              autoComplete="new-password"
+              value={form.confirm}
+              onChange={set("confirm")}
+              placeholder="••••••••"
+              aria-label="Confirm password"
+              required
+              minLength={8}
+            />
           </AuthField>
         </div>
 
-
-        <label className="flex items-start gap-2.5 pt-1">
+        <label htmlFor="terms" className="flex items-start gap-2.5">
           <button
             type="button"
+            id="terms"
+            role="checkbox"
+            aria-checked={agree}
             onClick={() => setAgree(!agree)}
-            className="mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border transition-all"
+            className="mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(108,77,255,0.35)]"
             style={{
               background: agree ? "#6C4DFF" : "white",
               borderColor: agree ? "#6C4DFF" : "#CBD5E1",
@@ -110,20 +166,26 @@ function RegisterPage() {
           </span>
         </label>
 
-        {err && <p className="text-[13px]" style={{ color: "#DC2626" }}>{err}</p>}
+        {err && (
+          <p role="alert" className="text-[13px]" style={{ color: "#DC2626" }}>
+            {err}
+          </p>
+        )}
 
         <motion.button
+          type="submit"
           whileTap={{ scale: 0.985 }}
           disabled={loading}
-          className="group flex h-[56px] w-full items-center justify-center gap-2 rounded-2xl text-[15.5px] font-semibold text-white transition-all hover:shadow-xl disabled:opacity-60"
+          aria-busy={loading}
+          className="group flex h-[56px] w-full items-center justify-center gap-2 rounded-2xl text-[15.5px] font-semibold text-white transition-all duration-200 hover:shadow-xl hover:brightness-[1.03] active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(108,77,255,0.45)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           style={{
             background: "linear-gradient(135deg, #6C4DFF 0%, #8F7CFF 100%)",
             boxShadow: "0 18px 38px -12px rgba(108,77,255,0.6)",
           }}
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          Create Account
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          {loading ? "Creating account…" : "Create Account"}
+          {!loading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />}
         </motion.button>
 
         <Divider />
