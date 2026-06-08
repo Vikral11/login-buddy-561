@@ -27,6 +27,7 @@ import { Route as AppActionCenterRouteImport } from './routes/_app.action-center
 import { Route as AppIntegrationsLinkedinRouteImport } from './routes/_app.integrations.linkedin'
 import { Route as AppIntegrationsInstagramRouteImport } from './routes/_app.integrations.instagram'
 import { Route as AppIntegrationsGmailRouteImport } from './routes/_app.integrations.gmail'
+import { Route as AppIntegrationsGmailManageRouteImport } from './routes/_app.integrations.gmail.manage'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -118,6 +119,12 @@ const AppIntegrationsGmailRoute = AppIntegrationsGmailRouteImport.update({
   path: '/integrations/gmail',
   getParentRoute: () => AppRoute,
 } as any)
+const AppIntegrationsGmailManageRoute =
+  AppIntegrationsGmailManageRouteImport.update({
+    id: '/manage',
+    path: '/manage',
+    getParentRoute: () => AppIntegrationsGmailRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -134,9 +141,10 @@ export interface FileRoutesByFullPath {
   '/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/integrations/gmail': typeof AppIntegrationsGmailRoute
+  '/integrations/gmail': typeof AppIntegrationsGmailRouteWithChildren
   '/integrations/instagram': typeof AppIntegrationsInstagramRoute
   '/integrations/linkedin': typeof AppIntegrationsLinkedinRoute
+  '/integrations/gmail/manage': typeof AppIntegrationsGmailManageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -153,9 +161,10 @@ export interface FileRoutesByTo {
   '/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/integrations/gmail': typeof AppIntegrationsGmailRoute
+  '/integrations/gmail': typeof AppIntegrationsGmailRouteWithChildren
   '/integrations/instagram': typeof AppIntegrationsInstagramRoute
   '/integrations/linkedin': typeof AppIntegrationsLinkedinRoute
+  '/integrations/gmail/manage': typeof AppIntegrationsGmailManageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -174,9 +183,10 @@ export interface FileRoutesById {
   '/_app/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
-  '/_app/integrations/gmail': typeof AppIntegrationsGmailRoute
+  '/_app/integrations/gmail': typeof AppIntegrationsGmailRouteWithChildren
   '/_app/integrations/instagram': typeof AppIntegrationsInstagramRoute
   '/_app/integrations/linkedin': typeof AppIntegrationsLinkedinRoute
+  '/_app/integrations/gmail/manage': typeof AppIntegrationsGmailManageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/integrations/gmail'
     | '/integrations/instagram'
     | '/integrations/linkedin'
+    | '/integrations/gmail/manage'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/integrations/gmail'
     | '/integrations/instagram'
     | '/integrations/linkedin'
+    | '/integrations/gmail/manage'
   id:
     | '__root__'
     | '/'
@@ -237,6 +249,7 @@ export interface FileRouteTypes {
     | '/_app/integrations/gmail'
     | '/_app/integrations/instagram'
     | '/_app/integrations/linkedin'
+    | '/_app/integrations/gmail/manage'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -374,8 +387,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppIntegrationsGmailRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/integrations/gmail/manage': {
+      id: '/_app/integrations/gmail/manage'
+      path: '/manage'
+      fullPath: '/integrations/gmail/manage'
+      preLoaderRoute: typeof AppIntegrationsGmailManageRouteImport
+      parentRoute: typeof AppIntegrationsGmailRoute
+    }
   }
 }
+
+interface AppIntegrationsGmailRouteChildren {
+  AppIntegrationsGmailManageRoute: typeof AppIntegrationsGmailManageRoute
+}
+
+const AppIntegrationsGmailRouteChildren: AppIntegrationsGmailRouteChildren = {
+  AppIntegrationsGmailManageRoute: AppIntegrationsGmailManageRoute,
+}
+
+const AppIntegrationsGmailRouteWithChildren =
+  AppIntegrationsGmailRoute._addFileChildren(AppIntegrationsGmailRouteChildren)
 
 interface AppRouteChildren {
   AppActionCenterRoute: typeof AppActionCenterRoute
@@ -389,7 +420,7 @@ interface AppRouteChildren {
   AppOpportunitiesRoute: typeof AppOpportunitiesRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppWorkspaceRoute: typeof AppWorkspaceRoute
-  AppIntegrationsGmailRoute: typeof AppIntegrationsGmailRoute
+  AppIntegrationsGmailRoute: typeof AppIntegrationsGmailRouteWithChildren
   AppIntegrationsInstagramRoute: typeof AppIntegrationsInstagramRoute
   AppIntegrationsLinkedinRoute: typeof AppIntegrationsLinkedinRoute
 }
@@ -406,7 +437,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppOpportunitiesRoute: AppOpportunitiesRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppWorkspaceRoute: AppWorkspaceRoute,
-  AppIntegrationsGmailRoute: AppIntegrationsGmailRoute,
+  AppIntegrationsGmailRoute: AppIntegrationsGmailRouteWithChildren,
   AppIntegrationsInstagramRoute: AppIntegrationsInstagramRoute,
   AppIntegrationsLinkedinRoute: AppIntegrationsLinkedinRoute,
 }
@@ -422,3 +453,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
