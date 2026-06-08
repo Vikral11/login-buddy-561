@@ -55,6 +55,7 @@ function RegisterPage() {
       cardPaddingClass="px-6 py-6 sm:px-8 sm:py-7"
       footerSpacingClass="mt-3"
       compactTrustFooter
+      trustFooterLayoutClass="grid-cols-1"
     >
       <form onSubmit={submit} className="space-y-4" noValidate>
         <div className="space-y-3">
