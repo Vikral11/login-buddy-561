@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Instagram } from "lucide-react";
 import { IntegrationWizard } from "@/components/IntegrationWizard";
 
-export const Route = createFileRoute("/_app/integrations/instagram")({
+export const Route = createFileRoute("/_app/integrations/instagram/setup")({
   head: () => ({ meta: [{ title: "Connect Instagram — Agentic" }] }),
   component: () => (
     <IntegrationWizard

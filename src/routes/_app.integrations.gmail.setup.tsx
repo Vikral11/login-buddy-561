@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Mail } from "lucide-react";
 import { IntegrationWizard } from "@/components/IntegrationWizard";
 
-export const Route = createFileRoute("/_app/integrations/gmail")({
+export const Route = createFileRoute("/_app/integrations/gmail/setup")({
   head: () => ({ meta: [{ title: "Connect Gmail — Agentic" }] }),
   component: () => (
     <IntegrationWizard

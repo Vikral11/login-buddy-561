@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Linkedin } from "lucide-react";
 import { IntegrationWizard } from "@/components/IntegrationWizard";
 
-export const Route = createFileRoute("/_app/integrations/linkedin")({
+export const Route = createFileRoute("/_app/integrations/linkedin/setup")({
   head: () => ({ meta: [{ title: "Connect LinkedIn — Agentic" }] }),
   component: () => (
     <IntegrationWizard
