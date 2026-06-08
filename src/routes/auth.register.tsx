@@ -51,9 +51,12 @@ function RegisterPage() {
     <AuthLayout
       heading="Create Your Agentic Account"
       subtitle="Start managing all your communication channels from one place."
+      panelWidthClass="max-w-[560px]"
+      cardPaddingClass="px-6 py-6 sm:px-8 sm:py-7"
+      footerSpacingClass="mt-4"
     >
-      <form onSubmit={submit} className="space-y-5" noValidate>
-        <div className="space-y-3.5">
+      <form onSubmit={submit} className="space-y-4" noValidate>
+        <div className="space-y-3">
           <AuthField label="Full Name">
             <AuthInput
               icon={User}
@@ -110,7 +113,7 @@ function RegisterPage() {
           </div>
         </AuthField>
 
-        <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <AuthField label="Password">
             <AuthInput
               icon={Lock}
@@ -143,7 +146,7 @@ function RegisterPage() {
           </AuthField>
         </div>
 
-        <label htmlFor="terms" className="flex items-start gap-2.5">
+        <label htmlFor="terms" className="flex items-start gap-2.5 pt-0.5">
           <button
             type="button"
             id="terms"
@@ -177,7 +180,7 @@ function RegisterPage() {
           whileTap={{ scale: 0.985 }}
           disabled={loading}
           aria-busy={loading}
-          className="group flex h-[56px] w-full items-center justify-center gap-2 rounded-2xl text-[15.5px] font-semibold text-white transition-all duration-200 hover:shadow-xl hover:brightness-[1.03] active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(108,77,255,0.45)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+          className="group flex h-[54px] w-full items-center justify-center gap-2 rounded-2xl text-[15px] font-semibold text-white transition-all duration-200 hover:shadow-xl hover:brightness-[1.03] active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(108,77,255,0.45)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           style={{
             background: "linear-gradient(135deg, #6C4DFF 0%, #8F7CFF 100%)",
             boxShadow: "0 18px 38px -12px rgba(108,77,255,0.6)",
@@ -188,7 +191,9 @@ function RegisterPage() {
           {!loading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />}
         </motion.button>
 
-        <Divider />
+        <div className="pt-0.5">
+          <Divider />
+        </div>
 
         <p className="text-center text-[13.5px] text-[#64748B]">
           Already have an account?{" "}
