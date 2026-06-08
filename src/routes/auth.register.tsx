@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Loader2, Check, Mail, Lock, User } from "lucide-react";
+import { ArrowRight, Loader2, Check, Mail, Lock, User, Briefcase, ChevronDown } from "lucide-react";
 import { AuthLayout } from "@/components/AuthLayout";
 import { useAuth } from "@/lib/auth";
 import { AuthField, AuthInput, Divider } from "@/components/AuthFormBits";
@@ -11,26 +11,36 @@ export const Route = createFileRoute("/auth/register")({
   component: RegisterPage,
 });
 
+const ROLES = ["Founder", "Executive", "Manager", "Sales", "Marketing", "Developer", "Designer", "Student", "Other"] as const;
+type Role = (typeof ROLES)[number];
+
 function RegisterPage() {
   const { register } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: "", email: "", password: "", confirm: "" });
+  const [form, setForm] = useState<{ name: string; email: string; password: string; confirm: string; role: Role | "" }>({
+    name: "",
+    email: "",
+    password: "",
+    confirm: "",
+    role: "",
+  });
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
+  const set = (k: "name" | "email" | "password" | "confirm") => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm({ ...form, [k]: e.target.value });
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErr(null);
     if (!form.name || !form.email || !form.password) return setErr("All fields are required.");
+    if (!form.role) return setErr("Please select your role.");
     if (form.password !== form.confirm) return setErr("Passwords do not match.");
     if (form.password.length < 8) return setErr("Password must be at least 8 characters.");
     if (!agree) return setErr("Please accept the Terms and Privacy Policy.");
     setLoading(true);
     try {
-      await register({ name: form.name, email: form.email, password: form.password, role: "User" });
+      await register({ name: form.name, email: form.email, password: form.password, role: form.role });
       navigate({ to: "/home" });
     } finally {
       setLoading(false);
@@ -49,6 +59,27 @@ function RegisterPage() {
         <AuthField label="Email Address">
           <AuthInput icon={Mail} type="email" value={form.email} onChange={set("email")} placeholder="Enter your email address" autoComplete="email" />
         </AuthField>
+        <AuthField label="Role">
+          <div className="relative">
+            <Briefcase className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[#CBD5E1]" />
+            <select
+              value={form.role}
+              onChange={(e) => setForm({ ...form, role: e.target.value as Role })}
+              className={
+                "block h-[52px] w-full appearance-none rounded-xl border bg-white pl-11 pr-10 text-[14px] outline-none transition-all border-[#E5E7EB] focus:border-[#6C4DFF] focus:ring-2 focus:ring-[rgba(108,77,255,0.15)] " +
+                (form.role ? "text-[#0F172A]" : "text-[#94A3B8]")
+              }
+            >
+              <option value="" disabled>Select your role</option>
+              {ROLES.map((r) => (
+                <option key={r} value={r} className="text-[#0F172A]">
+                  {r}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[#94A3B8]" />
+          </div>
+        </AuthField>
         <div className="grid grid-cols-2 gap-3">
           <AuthField label="Password">
             <AuthInput icon={Lock} type="password" value={form.password} onChange={set("password")} placeholder="••••••••" autoComplete="new-password" />
@@ -57,6 +88,7 @@ function RegisterPage() {
             <AuthInput icon={Lock} type="password" value={form.confirm} onChange={set("confirm")} placeholder="••••••••" autoComplete="new-password" />
           </AuthField>
         </div>
+
 
         <label className="flex items-start gap-2.5 pt-1">
           <button
