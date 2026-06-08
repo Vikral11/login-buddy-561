@@ -64,7 +64,7 @@ function Logo() {
 function LeftPanel() {
   return (
     <div
-      className="relative hidden overflow-hidden md:flex md:flex-col md:px-8 md:py-6 lg:h-screen lg:px-10 xl:px-14"
+      className="relative flex flex-col overflow-hidden px-5 py-8 md:px-8 md:py-6 lg:h-screen lg:px-10 xl:px-14"
       style={{ background: "#F7F5FF" }}
     >
       <Logo />
