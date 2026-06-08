@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Loader2, Check, Mail, Lock, User } from "lucide-react";
 import { AuthLayout } from "@/components/AuthLayout";
 import { useAuth } from "@/lib/auth";
-import { AuthField, AuthInput, Divider, TrustFooter } from "@/components/AuthFormBits";
+import { AuthField, AuthInput, Divider } from "@/components/AuthFormBits";
 
 export const Route = createFileRoute("/auth/register")({
   head: () => ({ meta: [{ title: "Create account — Agentic" }] }),
@@ -102,8 +102,6 @@ function RegisterPage() {
             Login to Agentic
           </Link>
         </p>
-
-        <TrustFooter />
       </form>
     </AuthLayout>
   );
