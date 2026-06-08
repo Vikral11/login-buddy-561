@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, Mail, Lock } from "lucide-react";
 import { AuthLayout } from "@/components/AuthLayout";
 import { useAuth } from "@/lib/auth";
 import { AuthField, AuthInput, TrustFooter, Divider } from "@/components/AuthFormBits";
@@ -42,11 +42,12 @@ function LoginPage() {
       <form onSubmit={submit} className="space-y-5">
         <AuthField label="Email Address">
           <AuthInput
+            icon={Mail}
             type="email"
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@company.com"
+            placeholder="Enter your email address"
           />
         </AuthField>
         <AuthField
@@ -58,11 +59,12 @@ function LoginPage() {
           }
         >
           <AuthInput
+            icon={Lock}
             type="password"
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
+            placeholder="Enter your password"
           />
         </AuthField>
 
@@ -71,10 +73,10 @@ function LoginPage() {
         <motion.button
           whileTap={{ scale: 0.985 }}
           disabled={loading}
-          className="group flex h-[52px] w-full items-center justify-center gap-2 rounded-2xl text-[15px] font-semibold text-white transition-all hover:shadow-lg disabled:opacity-60"
+          className="group flex h-[56px] w-full items-center justify-center gap-2 rounded-2xl text-[15.5px] font-semibold text-white transition-all hover:shadow-xl disabled:opacity-60"
           style={{
             background: "linear-gradient(135deg, #6C4DFF 0%, #8F7CFF 100%)",
-            boxShadow: "0 14px 32px -12px rgba(108,77,255,0.55)",
+            boxShadow: "0 18px 38px -12px rgba(108,77,255,0.6)",
           }}
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
