@@ -51,14 +51,14 @@ function RegisterPage() {
     <AuthLayout
       heading="Create Your Agentic Account"
       subtitle="Start managing all your communication channels from one place."
-      panelWidthClass="max-w-[500px] lg:max-w-[520px]"
-      cardPaddingClass="px-5 py-5 sm:px-7 sm:py-6"
+      panelWidthClass="max-w-[560px] lg:max-w-[580px]"
+      cardPaddingClass="px-5 py-5 sm:px-6 sm:py-6"
       footerSpacingClass="mt-2.5"
       compactTrustFooter
-      trustFooterLayoutClass="grid-cols-1"
+      trustFooterLayoutClass="grid-cols-1 sm:grid-cols-3"
     >
-      <form onSubmit={submit} className="space-y-3.5" noValidate>
-        <div className="space-y-2.5">
+      <form onSubmit={submit} className="space-y-3" noValidate>
+        <div className="space-y-2">
           <AuthField label="Full Name">
             <AuthInput
               icon={User}
@@ -115,7 +115,7 @@ function RegisterPage() {
           </div>
         </AuthField>
 
-        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           <AuthField label="Password">
             <AuthInput
               icon={Lock}
