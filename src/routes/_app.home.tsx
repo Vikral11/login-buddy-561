@@ -163,7 +163,7 @@ function Home() {
             const { Icon } = it;
             const status: Status = state[it.provider].connected ? "connected" : "not_connected";
             const buttonLabel = status === "connected" ? `Manage ${it.name}` : `Connect ${it.name}`;
-            const targetHref = status === "connected" ? `${it.href}/manage` : it.href;
+            const targetHref = (status === "connected" ? `${it.href}/manage` : it.href) as string;
             return (
               <motion.div
                 key={it.name}
