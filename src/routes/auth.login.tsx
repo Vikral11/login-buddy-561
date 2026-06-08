@@ -1,12 +1,13 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import { AuthLayout } from "@/components/AuthLayout";
 import { useAuth } from "@/lib/auth";
+import { AuthField, AuthInput, TrustFooter, Divider } from "@/components/AuthFormBits";
 
 export const Route = createFileRoute("/auth/login")({
-  head: () => ({ meta: [{ title: "Sign in — CurdAI" }] }),
+  head: () => ({ meta: [{ title: "Sign in — Agentic" }] }),
   component: LoginPage,
 });
 
@@ -34,53 +35,64 @@ function LoginPage() {
   };
 
   return (
-    <AuthLayout heading="Welcome Back" sub="Access your intelligent workspace">
+    <AuthLayout
+      heading={<>Welcome Back <span aria-hidden>👋</span></>}
+      subtitle="Sign in to your Agentic workspace."
+    >
       <form onSubmit={submit} className="space-y-5">
-        <Field label="Email address">
-          <input
+        <AuthField label="Email Address">
+          <AuthInput
             type="email"
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            className="input"
+            placeholder="you@company.com"
           />
-        </Field>
-        <Field label="Password">
-          <input
+        </AuthField>
+        <AuthField
+          label="Password"
+          aside={
+            <Link to="/auth/login" className="text-[12px] font-medium" style={{ color: "#6C4DFF" }}>
+              Forgot Password?
+            </Link>
+          }
+        >
+          <AuthInput
             type="password"
             autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="••••••••"
-            className="input"
           />
-        </Field>
-        {err && <p className="text-sm text-destructive">{err}</p>}
+        </AuthField>
+
+        {err && <p className="text-[13px]" style={{ color: "#DC2626" }}>{err}</p>}
+
         <motion.button
-          whileTap={{ scale: 0.98 }}
+          whileTap={{ scale: 0.985 }}
           disabled={loading}
-          className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary-glow text-sm font-medium text-primary-foreground shadow-[var(--shadow-glow)] transition-opacity hover:opacity-95 disabled:opacity-60"
+          className="group flex h-[52px] w-full items-center justify-center gap-2 rounded-2xl text-[15px] font-semibold text-white transition-all hover:shadow-lg disabled:opacity-60"
+          style={{
+            background: "linear-gradient(135deg, #6C4DFF 0%, #8F7CFF 100%)",
+            boxShadow: "0 14px 32px -12px rgba(108,77,255,0.55)",
+          }}
         >
-          {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-          Sign In
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          Login to Agentic
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </motion.button>
-        <p className="text-center text-sm text-muted-foreground">
+
+        <Divider />
+
+        <p className="text-center text-[13.5px] text-[#64748B]">
           Don't have an account?{" "}
-          <Link to="/auth/register" className="text-primary hover:underline">
-            Create Account
+          <Link to="/auth/register" className="font-semibold" style={{ color: "#6C4DFF" }}>
+            Register for Agentic
           </Link>
         </p>
+
+        <TrustFooter />
       </form>
     </AuthLayout>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-xs font-medium uppercase tracking-widest text-muted-foreground">{label}</span>
-      {children}
-    </label>
   );
 }
