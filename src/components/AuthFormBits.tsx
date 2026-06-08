@@ -34,8 +34,8 @@ export const AuthInput = React.forwardRef<
         ref={ref}
         {...props}
         className={
-          "block h-[56px] w-full rounded-2xl border bg-white/90 text-[15px] text-[#0F172A] placeholder:text-[#94A3B8] outline-none transition-all " +
-          (Icon ? "pl-12 pr-4 " : "px-4 ") +
+          "block h-[52px] w-full rounded-xl border bg-white/90 text-[14.5px] text-[#0F172A] placeholder:text-[#94A3B8] outline-none transition-all " +
+          (Icon ? "pl-11 pr-4 " : "px-4 ") +
           "border-[#E2E8F0] focus:border-[#6C4DFF] focus:ring-4 focus:ring-[rgba(108,77,255,0.15)] " +
           (className ?? "")
         }
@@ -61,18 +61,13 @@ export function TrustFooter() {
     { icon: Rocket, label: "Built For Productivity" },
   ];
   return (
-    <div className="grid grid-cols-3 gap-3 border-t border-[#EEF2F7] pt-6">
+    <div className="flex items-center justify-between gap-2 border-t border-[#EEF2F7] pt-4">
       {items.map((it) => {
         const Icon = it.icon;
         return (
-          <div key={it.label} className="flex flex-col items-center gap-2 text-center">
-            <div
-              className="flex h-9 w-9 items-center justify-center rounded-xl"
-              style={{ background: "linear-gradient(135deg, rgba(108,77,255,0.12), rgba(143,124,255,0.18))" }}
-            >
-              <Icon className="h-[18px] w-[18px]" style={{ color: "#6C4DFF" }} />
-            </div>
-            <span className="text-[11.5px] font-medium text-[#475569]">{it.label}</span>
+          <div key={it.label} className="flex items-center gap-1.5">
+            <Icon className="h-3.5 w-3.5" style={{ color: "#6C4DFF" }} />
+            <span className="text-[11px] font-medium text-[#475569]">{it.label}</span>
           </div>
         );
       })}
