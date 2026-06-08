@@ -30,10 +30,10 @@ export function AuthLayout({
 
   return (
     <div
-      className="h-screen w-full overflow-hidden text-[#0F172A]"
+      className="min-h-screen w-full text-[#0F172A] lg:h-screen lg:overflow-hidden"
       style={{ fontFamily: "'Inter', ui-sans-serif, system-ui, sans-serif" }}
     >
-      <div className="grid h-full lg:grid-cols-2">
+      <div className="grid min-h-screen lg:h-full lg:grid-cols-2 xl:grid-cols-2 md:grid-cols-[55%_45%]">
         <LeftPanel />
         <RightPanel heading={heading} subtitle={subtitle}>
           {children}
@@ -64,7 +64,7 @@ function Logo() {
 function LeftPanel() {
   return (
     <div
-      className="relative hidden h-screen overflow-hidden lg:flex lg:flex-col lg:px-10 lg:py-6 xl:px-14"
+      className="relative hidden overflow-hidden md:flex md:flex-col md:px-8 md:py-6 lg:h-screen lg:px-10 xl:px-14"
       style={{ background: "#F7F5FF" }}
     >
       <Logo />
@@ -290,9 +290,9 @@ function RightPanel({
 }) {
   return (
     <div
-      className="relative flex h-screen flex-col overflow-hidden bg-white px-6 py-6 sm:px-10"
+      className="relative flex min-h-screen flex-col bg-white px-5 py-8 sm:px-8 lg:h-screen lg:overflow-hidden lg:py-6"
     >
-      <div className="lg:hidden absolute left-6 top-6">
+      <div className="md:hidden mb-6 flex justify-center">
         <Logo />
       </div>
 
@@ -301,7 +301,7 @@ function RightPanel({
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
-          className="w-full max-w-[560px] rounded-[24px] border bg-white px-10 py-9"
+          className="w-full max-w-[640px] rounded-[24px] border bg-white px-6 py-7 sm:px-10 sm:py-8"
           style={{
             borderColor: "#EEF0F5",
             boxShadow: "0 24px 60px -28px rgba(15,23,42,0.14), 0 6px 18px -10px rgba(15,23,42,0.06)",
@@ -315,9 +315,9 @@ function RightPanel({
         </motion.div>
       </div>
 
-      <div className="mx-auto w-full max-w-[640px]">
+      <div className="mx-auto mt-6 w-full max-w-[640px]">
         <TrustFooter />
-        <p className="mt-3 text-center text-[12px] text-[#94A3B8]">
+        <p className="mt-4 text-center text-[12px] text-[#94A3B8]">
           © 2024 Agentic. All rights reserved.
         </p>
       </div>
