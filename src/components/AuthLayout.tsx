@@ -292,10 +292,6 @@ function RightPanel({
     <div
       className="relative flex min-h-screen flex-col bg-white px-5 py-8 sm:px-8 lg:h-screen lg:overflow-hidden lg:py-6"
     >
-      <div className="md:hidden mb-6 flex justify-center">
-        <Logo />
-      </div>
-
       <div className="flex flex-1 items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
