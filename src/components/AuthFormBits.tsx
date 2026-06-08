@@ -73,7 +73,7 @@ export function TrustFooter({
         return (
           <div
             key={it.label}
-            className={`flex h-full items-start gap-2.5 rounded-2xl border bg-white/80 ${compact ? "px-3 py-2.5" : "px-3.5 py-3.5"}`}
+            className={`flex h-full items-start gap-2.5 rounded-2xl border bg-white/80 ${compact ? "min-h-[88px] px-3 py-2.5" : "px-3.5 py-3.5"}`}
             style={{ borderColor: "#EEF0F5" }}
           >
             <div
