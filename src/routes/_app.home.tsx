@@ -45,7 +45,7 @@ const integrations: Integration[] = [
     bullets: [{ label: "201 emails imported" }, { label: "Live sync active" }],
     accent: "text-red-500",
     trendColor: "from-emerald-400/40 to-transparent",
-    buttonLabel: "Manage Integration",
+    buttonLabel: "Connect Gmail",
     href: "/integrations/gmail",
     Icon: Mail,
   },

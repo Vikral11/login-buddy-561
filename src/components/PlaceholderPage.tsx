@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
+import { ArrowLeft, type LucideIcon } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 type Props = {
@@ -13,6 +14,14 @@ type Props = {
 export function PlaceholderPage({ eyebrow, title, description, icon: Icon, children }: Props) {
   return (
     <div className="space-y-8">
+      <Link
+        to="/home"
+        className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Back to dashboard
+      </Link>
+
       <header>
         <p className="text-xs uppercase tracking-[0.3em] text-primary">{eyebrow}</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight">{title}</h1>
