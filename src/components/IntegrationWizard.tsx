@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -13,14 +13,15 @@ import {
   Lightbulb,
   Loader2,
   Lock,
+  Plug,
   RefreshCw,
   Shield,
+  Trash2,
   XCircle,
 } from "lucide-react";
 import { useEffect, useMemo, useState, type ComponentType } from "react";
 import { cn } from "@/lib/utils";
-
-type Provider = "gmail" | "linkedin" | "instagram";
+import { useIntegrations, type Provider } from "@/lib/integrations";
 
 export type WizardConfig = {
   provider: Provider;
@@ -53,31 +54,23 @@ const emptyForm: FormState = {
 };
 
 export function IntegrationWizard({ config }: { config: WizardConfig }) {
-  const storageKey = `agentic:integration:${config.provider}`;
+  const navigate = useNavigate();
+  const integrations = useIntegrations();
+  const record = integrations.get(config.provider);
+  const isConnected = record.connected;
+
   const [step, setStep] = useState(1);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [showSecret, setShowSecret] = useState(false);
   const [testStatus, setTestStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [confirmDisconnect, setConfirmDisconnect] = useState(false);
 
-  // hydrate from localStorage
+  // hydrate from store (preload saved creds when managing)
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(storageKey);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        setForm({ ...emptyForm, ...parsed.form });
-        setStep(parsed.step ?? 1);
-      }
-    } catch {}
+    setForm({ ...emptyForm, ...record.creds });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storageKey]);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(storageKey, JSON.stringify({ form, step }));
-    } catch {}
-  }, [form, step, storageKey]);
+  }, [config.provider]);
 
   const step1Valid = form.google_client_id.trim().length > 0 && form.google_client_secret.trim().length > 0;
   const step2Valid = form.project_id.trim().length > 0 && form.subscription_id.trim().length > 0;
@@ -94,22 +87,23 @@ export function IntegrationWizard({ config }: { config: WizardConfig }) {
   const runTest = async () => {
     setTestStatus("loading");
     setErrorMsg("");
-    // Simulated; ready for FastAPI: POST /api/integrations/{provider}/test with payload below
-    const payload = {
-      google_client_id: form.google_client_id,
-      google_client_secret: form.google_client_secret,
-      project_id: form.project_id,
-      subscription_id: form.subscription_id,
-    };
-    await new Promise((r) => setTimeout(r, 1400));
-    // Demo logic: fail when secret is literally "fail"
+    await new Promise((r) => setTimeout(r, 1200));
     if (form.google_client_secret.toLowerCase() === "fail") {
       setTestStatus("error");
       setErrorMsg("Invalid Client Secret. Please verify your credentials in Google Cloud Console.");
       return;
     }
-    void payload;
+    // Persist connection (ready for FastAPI: POST /integrations/{provider}/connect)
+    integrations.connect(config.provider, form);
     setTestStatus("success");
+    // Auto-redirect to dashboard
+    setTimeout(() => navigate({ to: "/home" }), 1400);
+  };
+
+  const handleDisconnect = () => {
+    integrations.disconnect(config.provider);
+    setConfirmDisconnect(false);
+    navigate({ to: "/home" });
   };
 
   return (
@@ -121,6 +115,31 @@ export function IntegrationWizard({ config }: { config: WizardConfig }) {
         <ArrowLeft className="h-4 w-4" />
         Back to Integrations
       </Link>
+
+      {isConnected && (
+        <div className="mb-5 flex flex-col gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 dark:border-emerald-900/40 dark:bg-emerald-950/30 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600">
+              <Plug className="h-4 w-4" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-100">
+                {config.title} is connected
+              </p>
+              <p className="text-xs text-emerald-800/80 dark:text-emerald-200/80">
+                Edit credentials below, retest the connection, or disconnect this integration.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setConfirmDisconnect(true)}
+            className="inline-flex items-center gap-2 rounded-lg border border-red-300 bg-white px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 dark:border-red-900/50 dark:bg-transparent dark:hover:bg-red-950/30"
+          >
+            <Trash2 className="h-4 w-4" />
+            Disconnect {config.title.replace("Connect ", "")}
+          </button>
+        </div>
+      )}
 
       <Stepper step={step} onJump={goToStep} step1Valid={step1Valid} step2Valid={step2Valid} />
 
@@ -288,7 +307,7 @@ export function IntegrationWizard({ config }: { config: WizardConfig }) {
                       </div>
                     </div>
                     <div className="mt-5 flex justify-end gap-2">
-                      <Link to="/home" className={secondaryBtn}>Done</Link>
+                      <button onClick={() => navigate({ to: "/home" })} className={secondaryBtn}>Done</button>
                     </div>
                   </div>
                 )}
@@ -326,6 +345,30 @@ export function IntegrationWizard({ config }: { config: WizardConfig }) {
 
         <DocPanel step={step} />
       </div>
+
+      {confirmDisconnect && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-md rounded-2xl border border-border bg-card p-6 shadow-xl">
+            <h3 className="text-lg font-semibold">
+              Disconnect {config.title.replace("Connect ", "")}?
+            </h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              You will stop receiving updates and sync events from {config.title.replace("Connect ", "")}.
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button onClick={() => setConfirmDisconnect(false)} className={secondaryBtn}>
+                Cancel
+              </button>
+              <button
+                onClick={handleDisconnect}
+                className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-red-700"
+              >
+                <Trash2 className="h-4 w-4" /> Disconnect
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
