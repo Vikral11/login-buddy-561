@@ -14,6 +14,7 @@ export function AuthLayout({
   panelWidthClass = "max-w-[640px]",
   cardPaddingClass = "px-6 py-7 sm:px-10 sm:py-8",
   footerSpacingClass = "mt-6",
+  compactTrustFooter = false,
 }: {
   children: ReactNode;
   heading: ReactNode;
@@ -21,6 +22,7 @@ export function AuthLayout({
   panelWidthClass?: string;
   cardPaddingClass?: string;
   footerSpacingClass?: string;
+  compactTrustFooter?: boolean;
 }) {
   // Force light theme for the auth pages only.
   useEffect(() => {
@@ -47,6 +49,7 @@ export function AuthLayout({
           panelWidthClass={panelWidthClass}
           cardPaddingClass={cardPaddingClass}
           footerSpacingClass={footerSpacingClass}
+          compactTrustFooter={compactTrustFooter}
         >
           {children}
         </RightPanel>
@@ -298,6 +301,7 @@ function RightPanel({
   panelWidthClass,
   cardPaddingClass,
   footerSpacingClass,
+  compactTrustFooter,
 }: {
   children: ReactNode;
   heading: ReactNode;
@@ -305,6 +309,7 @@ function RightPanel({
   panelWidthClass: string;
   cardPaddingClass: string;
   footerSpacingClass: string;
+  compactTrustFooter: boolean;
 }) {
   return (
     <div
@@ -330,7 +335,7 @@ function RightPanel({
       </div>
 
       <div className={`mx-auto w-full ${panelWidthClass} ${footerSpacingClass}`}>
-        <TrustFooter />
+        <TrustFooter compact={compactTrustFooter} />
         <p className="mt-4 text-center text-[12px] text-[#94A3B8]">
           © 2024 Agentic. All rights reserved.
         </p>
