@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Loader2, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { ArrowRight, Loader2, Mail, Lock, Eye, EyeOff, Check } from "lucide-react";
 import { AuthLayout } from "@/components/AuthLayout";
 import { useAuth } from "@/lib/auth";
 import { AuthField, AuthInput, Divider } from "@/components/AuthFormBits";
@@ -16,6 +16,7 @@ function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(true);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [showPw, setShowPw] = useState(false);
@@ -40,15 +41,19 @@ function LoginPage() {
       heading={<>Welcome back! <span aria-hidden>👋</span></>}
       subtitle="Login to your Agentic account"
     >
-      <form onSubmit={submit} className="space-y-4">
+      <form onSubmit={submit} className="space-y-4" noValidate>
         <AuthField label="Email address">
           <AuthInput
             icon={Mail}
+            id="email"
+            name="email"
             type="email"
             autoComplete="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email address"
+            aria-label="Email address"
+            required
           />
         </AuthField>
         <AuthField
@@ -62,17 +67,21 @@ function LoginPage() {
           <div className="relative">
             <AuthInput
               icon={Lock}
+              id="password"
+              name="password"
               type={showPw ? "text" : "password"}
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
+              aria-label="Password"
+              required
               className="pr-11"
             />
             <button
               type="button"
               onClick={() => setShowPw((v) => !v)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#94A3B8] hover:text-[#475569]"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-[#94A3B8] transition-colors hover:text-[#475569] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(108,77,255,0.35)]"
               aria-label={showPw ? "Hide password" : "Show password"}
             >
               {showPw ? <EyeOff className="h-[18px] w-[18px]" /> : <Eye className="h-[18px] w-[18px]" />}
@@ -80,20 +89,44 @@ function LoginPage() {
           </div>
         </AuthField>
 
-        {err && <p className="text-[13px]" style={{ color: "#DC2626" }}>{err}</p>}
+        <label htmlFor="remember_me" className="flex items-center gap-2.5 pt-0.5">
+          <button
+            type="button"
+            id="remember_me"
+            role="checkbox"
+            aria-checked={remember}
+            onClick={() => setRemember((v) => !v)}
+            className="flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(108,77,255,0.35)]"
+            style={{
+              background: remember ? "#6C4DFF" : "white",
+              borderColor: remember ? "#6C4DFF" : "#CBD5E1",
+            }}
+          >
+            {remember && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
+          </button>
+          <span className="text-[12.5px] text-[#64748B]">Remember me for 30 days</span>
+        </label>
+
+        {err && (
+          <p role="alert" className="text-[13px]" style={{ color: "#DC2626" }}>
+            {err}
+          </p>
+        )}
 
         <motion.button
+          type="submit"
           whileTap={{ scale: 0.985 }}
           disabled={loading}
-          className="group mt-2 flex h-[56px] w-full items-center justify-center gap-2 rounded-2xl text-[15px] font-semibold text-white transition-all hover:shadow-xl disabled:opacity-60"
+          aria-busy={loading}
+          className="group mt-1 flex h-[56px] w-full items-center justify-center gap-2 rounded-2xl text-[15px] font-semibold text-white transition-all duration-200 hover:shadow-xl hover:brightness-[1.03] active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(108,77,255,0.45)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           style={{
             background: "linear-gradient(135deg, #6C4DFF 0%, #8F7CFF 100%)",
             boxShadow: "0 18px 38px -12px rgba(108,77,255,0.6)",
           }}
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          Login to Agentic
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          {loading ? "Signing in…" : "Login to Agentic"}
+          {!loading && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />}
         </motion.button>
 
         <Divider />
