@@ -193,7 +193,7 @@ function Home() {
                 </div>
                 <div className="relative mt-auto flex gap-2 px-5 pb-5">
                   <Link
-                    to={targetHref}
+                    to={targetHref as never}
                     className={`flex h-10 flex-1 items-center justify-center rounded-xl border text-sm font-medium transition-colors ${
                       status === "connected"
                         ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-400"
@@ -203,7 +203,7 @@ function Home() {
                     {buttonLabel}
                   </Link>
                   <Link
-                    to={targetHref}
+                    to={targetHref as never}
                     className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground"
                     aria-label={`Open ${it.name}`}
                   >
