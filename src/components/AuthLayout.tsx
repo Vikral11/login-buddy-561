@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, type ReactNode } from "react";
-import { Mail, Linkedin, Instagram, Sparkles, Zap, Brain, Lock, ShieldCheck, Bot } from "lucide-react";
+import { Mail, Linkedin, Instagram, Sparkles, Zap, ShieldCheck, Bot, BarChart3, Lock } from "lucide-react";
+import { TrustFooter } from "@/components/AuthFormBits";
 
 /**
  * Agentic Auth split-screen layout — light theme only.
@@ -44,18 +45,18 @@ export function AuthLayout({
 
 function Logo() {
   return (
-    <div className="flex items-center gap-2.5">
-      <div className="relative flex h-9 w-9 items-center justify-center">
+    <div className="flex items-center gap-3">
+      <div className="relative flex h-10 w-10 items-center justify-center">
         <div
-          className="absolute inset-0 rounded-[10px]"
+          className="absolute inset-0 rounded-[11px]"
           style={{
             background: "linear-gradient(135deg, #6C4DFF 0%, #8F7CFF 100%)",
             boxShadow: "0 10px 24px -10px rgba(108,77,255,0.55)",
           }}
         />
-        <Sparkles className="relative h-4 w-4 text-white" strokeWidth={2.4} />
+        <Sparkles className="relative h-5 w-5 text-white" strokeWidth={2.4} />
       </div>
-      <span className="text-[15px] font-bold tracking-[0.18em] text-[#0F172A]">AGENTIC</span>
+      <span className="text-[20px] font-extrabold tracking-[0.18em] text-[#0F172A]">AGENTIC</span>
     </div>
   );
 }
@@ -63,29 +64,34 @@ function Logo() {
 function LeftPanel() {
   return (
     <div
-      className="relative hidden h-screen overflow-hidden lg:flex lg:flex-col lg:px-10 lg:py-6 xl:px-12"
-      style={{
-        background:
-          "radial-gradient(1200px 700px at 0% 0%, rgba(143,124,255,0.22), transparent 60%), radial-gradient(900px 600px at 100% 100%, rgba(108,77,255,0.14), transparent 60%), linear-gradient(180deg, #F4F1FF 0%, #FAFBFC 100%)",
-      }}
+      className="relative hidden h-screen overflow-hidden lg:flex lg:flex-col lg:px-10 lg:py-6 xl:px-14"
+      style={{ background: "#F7F5FF" }}
     >
       <Logo />
 
-      <div className="mt-4">
-        <h1 className="text-[40px] xl:text-[46px] font-semibold leading-[1.05] tracking-[-0.02em] text-[#0F172A]">
+      <div className="mt-5">
+        <h1 className="text-[38px] xl:text-[44px] font-bold leading-[1.08] tracking-[-0.02em] text-[#0F172A]">
           All Your Accounts.
           <br />
           One Platform.
           <br />
-          <span style={{ color: "#6C4DFF" }}>Smarter Actions.</span>
+          <span
+            style={{
+              background: "linear-gradient(90deg, #6C4DFF 0%, #8F7CFF 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            Smarter Actions.
+          </span>
         </h1>
-        <p className="mt-2.5 max-w-lg text-[13.5px] leading-snug text-[#64748B]">
-          Connect your Gmail, LinkedIn and Instagram accounts into one intelligent workspace —
-          monitor updates, opportunities and conversations automatically.
+        <p className="mt-3 max-w-[360px] text-[14px] leading-[1.55] text-[#64748B]">
+          Connect your accounts and let Agentic monitor, organize, and act on what matters most.
         </p>
       </div>
 
-      <div className="my-3 flex flex-1 items-center justify-center overflow-hidden">
+      <div className="my-2 flex flex-1 items-center justify-center overflow-hidden">
         <EcosystemDiagram />
       </div>
 
@@ -213,36 +219,30 @@ function EcosystemDiagram() {
 
 function FeatureCards() {
   const items = [
-    { icon: Zap, label: "Real-time Updates", desc: "Instant sync from every connected account." },
-    { icon: Sparkles, label: "Smart Automation", desc: "Agentic acts on routine work for you." },
-    { icon: Brain, label: "AI Insights", desc: "Summaries and action items, tailored." },
-    { icon: Lock, label: "Your Data. Your Control.", desc: "Encrypted, private, always yours." },
+    { icon: Zap, color: "#6C4DFF", bg: "rgba(108,77,255,0.10)", label: "Real-time Updates", desc: "Get instant updates from all your connected accounts." },
+    { icon: ShieldCheck, color: "#16A34A", bg: "rgba(22,163,74,0.10)", label: "Smart Automation", desc: "Agentic acts on your behalf and saves you valuable time." },
+    { icon: Sparkles, color: "#F59E0B", bg: "rgba(245,158,11,0.12)", label: "AI-Powered Insights", desc: "Smart summaries and action items tailored for you." },
+    { icon: BarChart3, color: "#0EA5E9", bg: "rgba(14,165,233,0.12)", label: "100% Your Control", desc: "Your data is secure, private and always under your control." },
   ];
   return (
-    <div className="grid grid-cols-2 gap-2.5">
+    <div className="grid grid-cols-4 gap-3">
       {items.map((it) => {
         const Icon = it.icon;
         return (
           <div
             key={it.label}
-            className="group flex items-center gap-2.5 rounded-xl border px-3 py-2.5 transition-all hover:-translate-y-0.5 hover:shadow-[0_14px_30px_-18px_rgba(15,23,42,0.25)]"
-            style={{
-              background: "rgba(255,255,255,0.75)",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              borderColor: "rgba(255,255,255,0.6)",
-              boxShadow: "0 8px 24px -16px rgba(15,23,42,0.18)",
-            }}
+            className="flex flex-col gap-2 rounded-xl border bg-white px-3 py-3"
+            style={{ borderColor: "#ECE9F7" }}
           >
             <div
-              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-              style={{ background: "linear-gradient(135deg, rgba(108,77,255,0.12), rgba(143,124,255,0.18))" }}
+              className="flex h-8 w-8 items-center justify-center rounded-lg"
+              style={{ background: it.bg }}
             >
-              <Icon className="h-4 w-4" style={{ color: "#6C4DFF" }} />
+              <Icon className="h-4 w-4" style={{ color: it.color }} />
             </div>
-            <div className="min-w-0">
-              <p className="text-[12.5px] font-semibold leading-tight text-[#0F172A]">{it.label}</p>
-              <p className="mt-0.5 text-[11px] leading-snug text-[#64748B] truncate">{it.desc}</p>
+            <div>
+              <p className="text-[12.5px] font-bold leading-tight text-[#0F172A]">{it.label}</p>
+              <p className="mt-1 text-[11px] leading-snug text-[#64748B]">{it.desc}</p>
             </div>
           </div>
         );
@@ -254,28 +254,27 @@ function FeatureCards() {
 function SecurityPanel() {
   return (
     <div
-      className="mt-3 flex items-center gap-3 rounded-xl border px-3.5 py-2.5"
+      className="mt-4 flex items-center gap-4 rounded-2xl border px-5 py-4"
       style={{
-        background: "rgba(255,255,255,0.7)",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-        borderColor: "rgba(255,255,255,0.5)",
-        boxShadow: "0 8px 28px -18px rgba(15,23,42,0.2)",
+        background: "linear-gradient(180deg, #EDE7FF 0%, #F1ECFF 100%)",
+        borderColor: "rgba(108,77,255,0.18)",
       }}
     >
       <div
-        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
+        className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl"
         style={{
-          background: "linear-gradient(135deg, #6C4DFF, #8F7CFF)",
-          boxShadow: "0 10px 22px -10px rgba(108,77,255,0.55)",
+          background: "linear-gradient(135deg, #8F7CFF, #6C4DFF)",
+          boxShadow: "0 14px 28px -12px rgba(108,77,255,0.55)",
         }}
       >
-        <ShieldCheck className="h-4.5 w-4.5 text-white" />
+        <Lock className="h-6 w-6 text-white" strokeWidth={2.4} />
       </div>
-      <p className="text-[11.5px] leading-snug text-[#475569]">
-        <span className="font-semibold text-[#0F172A]">Your data stays under your control.</span>{" "}
-        Credentials are encrypted and Agentic never acts without your authorization.
-      </p>
+      <div>
+        <p className="text-[14px] font-bold text-[#0F172A]">Your data. Your rules.</p>
+        <p className="mt-1 text-[12px] leading-snug text-[#64748B]">
+          We prioritize your privacy and security. You're always in control of your data and connections.
+        </p>
+      </div>
     </div>
   );
 }
@@ -291,41 +290,37 @@ function RightPanel({
 }) {
   return (
     <div
-      className="relative flex h-screen items-center justify-center overflow-hidden px-5 py-6 sm:px-8"
-      style={{
-        background:
-          "radial-gradient(900px 600px at 100% 0%, rgba(143,124,255,0.10), transparent 60%), radial-gradient(700px 500px at 0% 100%, rgba(108,77,255,0.08), transparent 60%), #FAFBFC",
-      }}
+      className="relative flex h-screen flex-col overflow-hidden bg-white px-6 py-6 sm:px-10"
     >
       <div className="lg:hidden absolute left-6 top-6">
         <Logo />
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 14 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: "easeOut" }}
-        className="w-full max-w-[520px] rounded-[24px] border px-8 py-7 sm:px-10 sm:py-8"
-        style={{
-          maxHeight: "650px",
-          background: "rgba(255,255,255,0.88)",
-          backdropFilter: "blur(18px) saturate(140%)",
-          WebkitBackdropFilter: "blur(18px) saturate(140%)",
-          borderColor: "rgba(255,255,255,0.7)",
-          boxShadow:
-            "0 30px 70px -28px rgba(15,23,42,0.22), 0 14px 32px -18px rgba(108,77,255,0.25), inset 0 1px 0 rgba(255,255,255,0.8)",
-        }}
-      >
-        <div className="text-center">
-          <h2 className="text-[26px] font-semibold tracking-tight text-[#0F172A]">{heading}</h2>
-          <p className="mt-1.5 text-[13.5px] text-[#64748B]">{subtitle}</p>
-        </div>
-        <div className="mt-5">{children}</div>
-      </motion.div>
+      <div className="flex flex-1 items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+          className="w-full max-w-[560px] rounded-[24px] border bg-white px-10 py-9"
+          style={{
+            borderColor: "#EEF0F5",
+            boxShadow: "0 24px 60px -28px rgba(15,23,42,0.14), 0 6px 18px -10px rgba(15,23,42,0.06)",
+          }}
+        >
+          <div className="text-center">
+            <h2 className="text-[28px] font-bold tracking-tight text-[#0F172A]">{heading}</h2>
+            <p className="mt-2 text-[14px] text-[#64748B]">{subtitle}</p>
+          </div>
+          <div className="mt-6">{children}</div>
+        </motion.div>
+      </div>
 
-      <p className="absolute bottom-3 left-1/2 -translate-x-1/2 text-[11px] text-[#94A3B8]">
-        © Agentic. All rights reserved.
-      </p>
+      <div className="mx-auto w-full max-w-[640px]">
+        <TrustFooter />
+        <p className="mt-3 text-center text-[12px] text-[#94A3B8]">
+          © 2024 Agentic. All rights reserved.
+        </p>
+      </div>
     </div>
   );
 }
