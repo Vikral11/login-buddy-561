@@ -1,22 +1,24 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, Check } from "lucide-react";
 import { AuthLayout } from "@/components/AuthLayout";
 import { useAuth } from "@/lib/auth";
+import { AuthField, AuthInput, Divider, TrustFooter } from "@/components/AuthFormBits";
 
 export const Route = createFileRoute("/auth/register")({
-  head: () => ({ meta: [{ title: "Create account — CurdAI" }] }),
+  head: () => ({ meta: [{ title: "Create account — Agentic" }] }),
   component: RegisterPage,
 });
 
 function RegisterPage() {
   const { register } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ name: "", email: "", role: "User" as "User" | "Admin", password: "", confirm: "" });
+  const [form, setForm] = useState({ name: "", email: "", password: "", confirm: "" });
+  const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm({ ...form, [k]: e.target.value });
 
   const submit = async (e: React.FormEvent) => {
@@ -25,9 +27,10 @@ function RegisterPage() {
     if (!form.name || !form.email || !form.password) return setErr("All fields are required.");
     if (form.password !== form.confirm) return setErr("Passwords do not match.");
     if (form.password.length < 8) return setErr("Password must be at least 8 characters.");
+    if (!agree) return setErr("Please accept the Terms and Privacy Policy.");
     setLoading(true);
     try {
-      await register({ name: form.name, email: form.email, password: form.password, role: form.role });
+      await register({ name: form.name, email: form.email, password: form.password, role: "User" });
       navigate({ to: "/home" });
     } finally {
       setLoading(false);
@@ -35,51 +38,73 @@ function RegisterPage() {
   };
 
   return (
-    <AuthLayout heading="Create Workspace" sub="Spin up your intelligent inbox in seconds">
+    <AuthLayout
+      heading="Create Your Agentic Account"
+      subtitle="Start managing all your communication channels from one place."
+    >
       <form onSubmit={submit} className="space-y-4">
-        <Field label="Full name">
-          <input className="input" value={form.name} onChange={set("name")} placeholder="Ada Lovelace" />
-        </Field>
-        <Field label="Email address">
-          <input type="email" className="input" value={form.email} onChange={set("email")} placeholder="you@example.com" />
-        </Field>
-        <Field label="Role">
-          <select className="input" value={form.role} onChange={set("role")}>
-            <option>User</option>
-            <option>Admin</option>
-          </select>
-        </Field>
+        <AuthField label="Full Name">
+          <AuthInput value={form.name} onChange={set("name")} placeholder="Ada Lovelace" autoComplete="name" />
+        </AuthField>
+        <AuthField label="Email Address">
+          <AuthInput type="email" value={form.email} onChange={set("email")} placeholder="you@company.com" autoComplete="email" />
+        </AuthField>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Password">
-            <input type="password" className="input" value={form.password} onChange={set("password")} placeholder="••••••••" />
-          </Field>
-          <Field label="Confirm">
-            <input type="password" className="input" value={form.confirm} onChange={set("confirm")} placeholder="••••••••" />
-          </Field>
+          <AuthField label="Password">
+            <AuthInput type="password" value={form.password} onChange={set("password")} placeholder="••••••••" autoComplete="new-password" />
+          </AuthField>
+          <AuthField label="Confirm Password">
+            <AuthInput type="password" value={form.confirm} onChange={set("confirm")} placeholder="••••••••" autoComplete="new-password" />
+          </AuthField>
         </div>
-        {err && <p className="text-sm text-destructive">{err}</p>}
+
+        <label className="flex items-start gap-2.5 pt-1">
+          <button
+            type="button"
+            onClick={() => setAgree(!agree)}
+            className="mt-0.5 flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border transition-all"
+            style={{
+              background: agree ? "#6C4DFF" : "white",
+              borderColor: agree ? "#6C4DFF" : "#CBD5E1",
+            }}
+            aria-pressed={agree}
+          >
+            {agree && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
+          </button>
+          <span className="text-[12.5px] leading-relaxed text-[#64748B]">
+            I agree to the{" "}
+            <span className="font-medium" style={{ color: "#6C4DFF" }}>Terms</span> and{" "}
+            <span className="font-medium" style={{ color: "#6C4DFF" }}>Privacy Policy</span>
+          </span>
+        </label>
+
+        {err && <p className="text-[13px]" style={{ color: "#DC2626" }}>{err}</p>}
+
         <motion.button
-          whileTap={{ scale: 0.98 }}
+          whileTap={{ scale: 0.985 }}
           disabled={loading}
-          className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary-glow text-sm font-medium text-primary-foreground shadow-[var(--shadow-glow)] hover:opacity-95 disabled:opacity-60"
+          className="group flex h-[52px] w-full items-center justify-center gap-2 rounded-2xl text-[15px] font-semibold text-white transition-all hover:shadow-lg disabled:opacity-60"
+          style={{
+            background: "linear-gradient(135deg, #6C4DFF 0%, #8F7CFF 100%)",
+            boxShadow: "0 14px 32px -12px rgba(108,77,255,0.55)",
+          }}
         >
-          {loading && <Loader2 className="h-4 w-4 animate-spin" />}
-          Create Workspace
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          Create Account
+          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
         </motion.button>
-        <p className="text-center text-sm text-muted-foreground">
+
+        <Divider />
+
+        <p className="text-center text-[13.5px] text-[#64748B]">
           Already have an account?{" "}
-          <Link to="/auth/login" className="text-primary hover:underline">Sign in</Link>
+          <Link to="/auth/login" className="font-semibold" style={{ color: "#6C4DFF" }}>
+            Login to Agentic
+          </Link>
         </p>
+
+        <TrustFooter />
       </form>
     </AuthLayout>
-  );
-}
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <label className="block">
-      <span className="mb-1.5 block text-xs font-medium uppercase tracking-widest text-muted-foreground">{label}</span>
-      {children}
-    </label>
   );
 }
