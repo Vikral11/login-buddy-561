@@ -45,7 +45,7 @@ const integrations: Integration[] = [
     bullets: [{ label: "201 emails imported" }, { label: "Live sync active" }],
     accent: "text-red-500",
     trendColor: "from-emerald-400/40 to-transparent",
-    href: "/integrations/gmail",
+    href: "/integrations/gmail/setup",
     Icon: Mail,
   },
   {
@@ -55,7 +55,7 @@ const integrations: Integration[] = [
     bullets: [{ label: "Message sync" }, { label: "Job alerts" }, { label: "Connection updates" }],
     accent: "text-blue-600",
     trendColor: "from-sky-400/40 to-transparent",
-    href: "/integrations/linkedin",
+    href: "/integrations/linkedin/setup",
     Icon: Linkedin,
   },
   {
@@ -65,7 +65,7 @@ const integrations: Integration[] = [
     bullets: [{ label: "DM sync" }, { label: "Comment tracking" }, { label: "Activity insights" }],
     accent: "text-pink-500",
     trendColor: "from-pink-400/40 to-transparent",
-    href: "/integrations/instagram",
+    href: "/integrations/instagram/setup",
     Icon: Instagram,
   },
 ];
@@ -163,7 +163,8 @@ function Home() {
             const { Icon } = it;
             const status: Status = state[it.provider].connected ? "connected" : "not_connected";
             const buttonLabel = status === "connected" ? `Manage ${it.name}` : `Connect ${it.name}`;
-            const targetHref = (status === "connected" ? `${it.href}/manage` : it.href) as string;
+            const managePath = `/integrations/${it.provider}/manage`;
+            const targetHref = (status === "connected" ? managePath : it.href) as string;
             return (
               <motion.div
                 key={it.name}

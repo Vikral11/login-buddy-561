@@ -52,7 +52,7 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
         <p className="mt-2 text-sm text-muted-foreground">Set up {config.name} to access the management page.</p>
         <div className="mt-6 flex justify-center gap-3">
           <Link to="/home" className={secondaryBtn}>Back to Dashboard</Link>
-          <Link to={`/integrations/${config.provider}` as never} className={primaryBtn}>
+          <Link to={`/integrations/${config.provider}/setup` as never} className={primaryBtn}>
             Connect {config.name}
           </Link>
         </div>
@@ -137,7 +137,7 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
             <h2 className="text-base font-semibold tracking-tight flex items-center gap-2">
               <KeyRound className="h-4 w-4" /> Credentials
             </h2>
-            <Link to={`/integrations/${config.provider}` as never} className={secondaryBtn}>
+            <Link to={`/integrations/${config.provider}/setup` as never} className={secondaryBtn}>
               <Pencil className="h-4 w-4" /> Update Credentials
             </Link>
           </div>
