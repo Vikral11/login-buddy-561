@@ -1,15 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Mail } from "lucide-react";
-import { PlaceholderPage } from "@/components/PlaceholderPage";
+import { IntegrationWizard } from "@/components/IntegrationWizard";
 
 export const Route = createFileRoute("/_app/integrations/gmail")({
-  head: () => ({ meta: [{ title: "Gmail Integration — Agentic" }] }),
+  head: () => ({ meta: [{ title: "Connect Gmail — Agentic" }] }),
   component: () => (
-    <PlaceholderPage
-      eyebrow="Integration"
-      title="Gmail"
-      description="Manage your Gmail integration: sync history, scopes, AI summaries and disconnect."
-      icon={Mail}
+    <IntegrationWizard
+      config={{
+        provider: "gmail",
+        title: "Connect Gmail",
+        Icon: Mail,
+        iconBg: "bg-red-500/10",
+        iconColor: "text-red-500",
+        description:
+          "Add your Google API credentials to allow Agentic to securely access your Gmail account.",
+        credentialLabels: {
+          idLabel: "Google Client ID",
+          secretLabel: "Google Client Secret",
+          idName: "google_client_id",
+          secretName: "google_client_secret",
+        },
+      }}
     />
   ),
 });
