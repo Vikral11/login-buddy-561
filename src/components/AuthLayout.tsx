@@ -11,10 +11,16 @@ export function AuthLayout({
   children,
   heading,
   subtitle,
+  panelWidthClass = "max-w-[640px]",
+  cardPaddingClass = "px-6 py-7 sm:px-10 sm:py-8",
+  footerSpacingClass = "mt-6",
 }: {
   children: ReactNode;
   heading: ReactNode;
   subtitle: string;
+  panelWidthClass?: string;
+  cardPaddingClass?: string;
+  footerSpacingClass?: string;
 }) {
   // Force light theme for the auth pages only.
   useEffect(() => {
@@ -35,7 +41,13 @@ export function AuthLayout({
     >
       <div className="grid min-h-screen lg:h-full lg:grid-cols-2 xl:grid-cols-2 md:grid-cols-[55%_45%]">
         <LeftPanel />
-        <RightPanel heading={heading} subtitle={subtitle}>
+        <RightPanel
+          heading={heading}
+          subtitle={subtitle}
+          panelWidthClass={panelWidthClass}
+          cardPaddingClass={cardPaddingClass}
+          footerSpacingClass={footerSpacingClass}
+        >
           {children}
         </RightPanel>
       </div>
@@ -283,10 +295,16 @@ function RightPanel({
   children,
   heading,
   subtitle,
+  panelWidthClass,
+  cardPaddingClass,
+  footerSpacingClass,
 }: {
   children: ReactNode;
   heading: ReactNode;
   subtitle: string;
+  panelWidthClass: string;
+  cardPaddingClass: string;
+  footerSpacingClass: string;
 }) {
   return (
     <div
@@ -297,7 +315,7 @@ function RightPanel({
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
-          className="w-full max-w-[640px] rounded-[24px] border bg-white px-6 py-7 sm:px-10 sm:py-8"
+          className={`w-full ${panelWidthClass} rounded-[24px] border bg-white ${cardPaddingClass}`}
           style={{
             borderColor: "#EEF0F5",
             boxShadow: "0 24px 60px -28px rgba(15,23,42,0.14), 0 6px 18px -10px rgba(15,23,42,0.06)",
@@ -311,7 +329,7 @@ function RightPanel({
         </motion.div>
       </div>
 
-      <div className="mx-auto mt-6 w-full max-w-[640px]">
+      <div className={`mx-auto w-full ${panelWidthClass} ${footerSpacingClass}`}>
         <TrustFooter />
         <p className="mt-4 text-center text-[12px] text-[#94A3B8]">
           © 2024 Agentic. All rights reserved.
