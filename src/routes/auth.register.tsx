@@ -51,14 +51,14 @@ function RegisterPage() {
     <AuthLayout
       heading="Create Your Agentic Account"
       subtitle="Start managing all your communication channels from one place."
-      panelWidthClass="max-w-[520px] lg:max-w-[540px]"
-      cardPaddingClass="px-6 py-6 sm:px-8 sm:py-7"
-      footerSpacingClass="mt-3"
+      panelWidthClass="max-w-[500px] lg:max-w-[520px]"
+      cardPaddingClass="px-5 py-5 sm:px-7 sm:py-6"
+      footerSpacingClass="mt-2.5"
       compactTrustFooter
       trustFooterLayoutClass="grid-cols-1"
     >
-      <form onSubmit={submit} className="space-y-4" noValidate>
-        <div className="space-y-3">
+      <form onSubmit={submit} className="space-y-3.5" noValidate>
+        <div className="space-y-2.5">
           <AuthField label="Full Name">
             <AuthInput
               icon={User}
@@ -115,7 +115,7 @@ function RegisterPage() {
           </div>
         </AuthField>
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
           <AuthField label="Password">
             <AuthInput
               icon={Lock}
@@ -182,7 +182,7 @@ function RegisterPage() {
           whileTap={{ scale: 0.985 }}
           disabled={loading}
           aria-busy={loading}
-          className="group flex h-[54px] w-full items-center justify-center gap-2 rounded-2xl text-[15px] font-semibold text-white transition-all duration-200 hover:shadow-xl hover:brightness-[1.03] active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(108,77,255,0.45)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+          className="group flex h-[52px] w-full items-center justify-center gap-2 rounded-2xl text-[14.5px] font-semibold text-white transition-all duration-200 hover:shadow-xl hover:brightness-[1.03] active:brightness-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgba(108,77,255,0.45)] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           style={{
             background: "linear-gradient(135deg, #6C4DFF 0%, #8F7CFF 100%)",
             boxShadow: "0 18px 38px -12px rgba(108,77,255,0.6)",
