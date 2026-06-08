@@ -67,24 +67,24 @@ export function TrustFooter({
     { icon: Sparkles, color: "#F59E0B", bg: "rgba(245,158,11,0.12)", label: "Built for Productivity", desc: "Automate, organize and achieve more." },
   ];
   return (
-    <div className={`grid ${layoutClassName ?? "grid-cols-1 sm:grid-cols-3"} gap-2.5 ${compact ? "sm:gap-2.5" : "sm:gap-3"}`}>
+    <div className={`grid ${layoutClassName ?? "grid-cols-1 sm:grid-cols-3"} gap-2 ${compact ? "sm:gap-2" : "sm:gap-3"}`}>
       {items.map((it) => {
         const Icon = it.icon;
         return (
           <div
             key={it.label}
-            className={`flex h-full items-start gap-2.5 rounded-2xl border bg-white/80 ${compact ? "px-3 py-3" : "px-3.5 py-3.5"}`}
+            className={`flex h-full items-start gap-2.5 rounded-2xl border bg-white/80 ${compact ? "px-3 py-2.5" : "px-3.5 py-3.5"}`}
             style={{ borderColor: "#EEF0F5" }}
           >
             <div
-              className={`mt-0.5 flex shrink-0 items-center justify-center rounded-lg ${compact ? "h-7 w-7" : "h-8 w-8"}`}
+              className={`mt-0.5 flex shrink-0 items-center justify-center rounded-lg ${compact ? "h-6.5 w-6.5" : "h-8 w-8"}`}
               style={{ background: it.bg }}
             >
-              <Icon className={compact ? "h-3.5 w-3.5" : "h-4 w-4"} style={{ color: it.color }} />
+              <Icon className={compact ? "h-3 w-3" : "h-4 w-4"} style={{ color: it.color }} />
             </div>
             <div className="min-w-0">
               <p className={`font-bold text-[#0F172A] ${compact ? "text-[11.5px]" : "text-[12px]"}`}>{it.label}</p>
-              <p className={`mt-0.5 leading-snug text-[#64748B] ${compact ? "text-[10.5px]" : "text-[11px]"}`}>{it.desc}</p>
+              <p className={`mt-0.5 leading-snug text-[#64748B] ${compact ? "text-[10px]" : "text-[11px]"}`}>{it.desc}</p>
             </div>
           </div>
         );
