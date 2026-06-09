@@ -9,6 +9,7 @@ import {
   Linkedin,
   Mail,
   Instagram,
+  Lock,
   RefreshCw,
   Shield,
   Sparkles,
@@ -193,23 +194,57 @@ function Home() {
                   </ul>
                 </div>
                 <div className="relative mt-auto flex gap-2 px-5 pb-5">
-                  <Link
-                    to={targetHref as never}
-                    className={`flex h-10 flex-1 items-center justify-center rounded-xl border text-sm font-medium transition-colors ${
-                      status === "connected"
-                        ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 hover:bg-emerald-500/20 dark:text-emerald-400"
-                        : "border-primary/30 bg-primary/10 text-primary hover:bg-primary/20"
-                    }`}
-                  >
-                    {buttonLabel}
-                  </Link>
-                  <Link
-                    to={targetHref as never}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground"
-                    aria-label={`Open ${it.name}`}
-                  >
-                    <ExternalLink className="h-4 w-4" />
-                  </Link>
+                  <div className="flex w-full flex-col gap-2">
+                    <Link
+                      to={it.href as never}
+                      className={`flex h-10 w-full items-center justify-center rounded-xl border text-sm font-medium transition-colors ${
+                        it.provider === "gmail"
+                          ? "border-primary/40 text-primary hover:bg-primary/10"
+                          : it.provider === "linkedin"
+                            ? "border-primary/40 text-primary hover:bg-primary/10"
+                            : "border-pink-500/40 text-pink-600 hover:bg-pink-500/10"
+                      }`}
+                    >
+                      Connect {it.name}
+                    </Link>
+                    <div className="flex gap-2">
+                      {status === "connected" ? (
+                        <Link
+                          to={managePath as never}
+                          className="flex h-10 flex-1 items-center justify-center gap-2 rounded-xl border border-primary/40 text-sm font-medium text-primary transition-colors hover:bg-primary/10"
+                        >
+                          Manage {it.name}
+                        </Link>
+                      ) : (
+                        <button
+                          type="button"
+                          disabled
+                          title="Complete setup first to access management dashboard"
+                          className="flex h-10 flex-1 cursor-not-allowed items-center justify-center gap-2 rounded-xl border border-border bg-muted/40 text-sm font-medium text-muted-foreground opacity-60"
+                        >
+                          <Lock className="h-3.5 w-3.5" /> Manage {it.name}
+                        </button>
+                      )}
+                      {status === "connected" ? (
+                        <Link
+                          to={managePath as never}
+                          aria-label={`Open ${it.name} management`}
+                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground hover:text-foreground"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                        </Link>
+                      ) : (
+                        <button
+                          type="button"
+                          disabled
+                          title="Complete setup first"
+                          className="flex h-10 w-10 shrink-0 cursor-not-allowed items-center justify-center rounded-xl border border-border bg-muted/40 text-muted-foreground opacity-60"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             );
