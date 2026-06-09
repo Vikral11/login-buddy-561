@@ -126,10 +126,10 @@ function Home() {
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <header>
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
-            Welcome back, {name}! <span aria-hidden>👋</span>
+            Manage Gmail
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground md:text-base">
-            Connect your accounts to bring all your conversations and opportunities into one place.
+            Monitor, configure, and manage your Gmail integration.
           </p>
         </header>
 
