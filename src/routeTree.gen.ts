@@ -18,7 +18,6 @@ import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppOpportunitiesRouteImport } from './routes/_app.opportunities'
 import { Route as AppHomeRouteImport } from './routes/_app.home'
 import { Route as AppGmailRouteImport } from './routes/_app.gmail'
-import { Route as AppEmailClassificationRouteImport } from './routes/_app.email-classification'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
 import { Route as AppConversationsRouteImport } from './routes/_app.conversations'
 import { Route as AppContactsRouteImport } from './routes/_app.contacts'
@@ -74,11 +73,6 @@ const AppHomeRoute = AppHomeRouteImport.update({
 const AppGmailRoute = AppGmailRouteImport.update({
   id: '/gmail',
   path: '/gmail',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppEmailClassificationRoute = AppEmailClassificationRouteImport.update({
-  id: '/email-classification',
-  path: '/email-classification',
   getParentRoute: () => AppRoute,
 } as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
@@ -156,7 +150,6 @@ export interface FileRoutesByFullPath {
   '/contacts': typeof AppContactsRoute
   '/conversations': typeof AppConversationsRoute
   '/dashboard': typeof AppDashboardRoute
-  '/email-classification': typeof AppEmailClassificationRoute
   '/gmail': typeof AppGmailRoute
   '/home': typeof AppHomeRoute
   '/opportunities': typeof AppOpportunitiesRoute
@@ -179,7 +172,6 @@ export interface FileRoutesByTo {
   '/contacts': typeof AppContactsRoute
   '/conversations': typeof AppConversationsRoute
   '/dashboard': typeof AppDashboardRoute
-  '/email-classification': typeof AppEmailClassificationRoute
   '/gmail': typeof AppGmailRoute
   '/home': typeof AppHomeRoute
   '/opportunities': typeof AppOpportunitiesRoute
@@ -204,7 +196,6 @@ export interface FileRoutesById {
   '/_app/contacts': typeof AppContactsRoute
   '/_app/conversations': typeof AppConversationsRoute
   '/_app/dashboard': typeof AppDashboardRoute
-  '/_app/email-classification': typeof AppEmailClassificationRoute
   '/_app/gmail': typeof AppGmailRoute
   '/_app/home': typeof AppHomeRoute
   '/_app/opportunities': typeof AppOpportunitiesRoute
@@ -229,7 +220,6 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/conversations'
     | '/dashboard'
-    | '/email-classification'
     | '/gmail'
     | '/home'
     | '/opportunities'
@@ -252,7 +242,6 @@ export interface FileRouteTypes {
     | '/contacts'
     | '/conversations'
     | '/dashboard'
-    | '/email-classification'
     | '/gmail'
     | '/home'
     | '/opportunities'
@@ -276,7 +265,6 @@ export interface FileRouteTypes {
     | '/_app/contacts'
     | '/_app/conversations'
     | '/_app/dashboard'
-    | '/_app/email-classification'
     | '/_app/gmail'
     | '/_app/home'
     | '/_app/opportunities'
@@ -362,13 +350,6 @@ declare module '@tanstack/react-router' {
       path: '/gmail'
       fullPath: '/gmail'
       preLoaderRoute: typeof AppGmailRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/email-classification': {
-      id: '/_app/email-classification'
-      path: '/email-classification'
-      fullPath: '/email-classification'
-      preLoaderRoute: typeof AppEmailClassificationRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/dashboard': {
@@ -465,7 +446,6 @@ interface AppRouteChildren {
   AppContactsRoute: typeof AppContactsRoute
   AppConversationsRoute: typeof AppConversationsRoute
   AppDashboardRoute: typeof AppDashboardRoute
-  AppEmailClassificationRoute: typeof AppEmailClassificationRoute
   AppGmailRoute: typeof AppGmailRoute
   AppHomeRoute: typeof AppHomeRoute
   AppOpportunitiesRoute: typeof AppOpportunitiesRoute
@@ -486,7 +466,6 @@ const AppRouteChildren: AppRouteChildren = {
   AppContactsRoute: AppContactsRoute,
   AppConversationsRoute: AppConversationsRoute,
   AppDashboardRoute: AppDashboardRoute,
-  AppEmailClassificationRoute: AppEmailClassificationRoute,
   AppGmailRoute: AppGmailRoute,
   AppHomeRoute: AppHomeRoute,
   AppOpportunitiesRoute: AppOpportunitiesRoute,
