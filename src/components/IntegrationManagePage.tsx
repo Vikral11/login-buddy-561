@@ -20,6 +20,12 @@ import {
 import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useIntegrations, type Provider } from "@/lib/integrations";
+import {
+  ClassificationSummaryCards,
+  ClassifiedItemsTable,
+  type CategoryStat,
+  type ClassifiedItem,
+} from "@/components/ClassifiedItems";
 
 // Backwards-compatible shapes (existing routes still pass these — most are unused
 // in the new dashboard-style layout but accepted to avoid breaking imports).
@@ -62,6 +68,11 @@ type ProviderData = {
   topSendersTitle: string;
   topSenders: TopSender[];
   recentActivity: { Icon: LucideIcon; color: string; title: string; time: string }[];
+  classificationStats: CategoryStat[];
+  classifiedItems: ClassifiedItem[];
+  intelligenceTitle: string;
+  intelligenceSubtitle: string;
+  itemLabel: string;
 };
 
 const DATA: Record<Provider, ProviderData> = {
@@ -100,6 +111,29 @@ const DATA: Record<Provider, ProviderData> = {
       { Icon: Mail, color: "text-primary bg-primary/10", title: "New email from LinkedIn", time: "12 seconds ago" },
       { Icon: Zap, color: "text-emerald-500 bg-emerald-500/10", title: "Sync completed", time: "15 seconds ago" },
     ],
+    intelligenceTitle: "AI Email Intelligence",
+    intelligenceSubtitle: "Automatically categorized and prioritized emails",
+    itemLabel: "Email Subject",
+    classificationStats: [
+      { category: "Marketing", count: 42 },
+      { category: "Billing", count: 18 },
+      { category: "Lead", count: 27 },
+      { category: "Support", count: 14 },
+      { category: "Personal", count: 33 },
+      { category: "Meeting", count: 11 },
+      { category: "Newsletter", count: 49 },
+      { category: "Scam", count: 7 },
+    ],
+    classifiedItems: [
+      { id: "g1", subject: "Interview Invitation - Software Engineer Intern", category: "Lead", priority: "High", sender: "Amazon Recruiter", receivedAt: "2 min ago" },
+      { id: "g2", subject: "Your invoice for November is ready", category: "Billing", priority: "Medium", sender: "Stripe", receivedAt: "15 min ago" },
+      { id: "g3", subject: "50% off your next purchase!", category: "Marketing", priority: "Low", sender: "Myntra", receivedAt: "1 hr ago" },
+      { id: "g4", subject: "Security alert for charvisrivastava02", category: "Support", priority: "High", sender: "GitHub", receivedAt: "2 hr ago" },
+      { id: "g5", subject: "Calendar invite: Sync with HSBC team", category: "Meeting", priority: "Medium", sender: "Outlook Calendar", receivedAt: "3 hr ago" },
+      { id: "g6", subject: "Your weekly digest from Substack", category: "Newsletter", priority: "Low", sender: "Substack", receivedAt: "Yesterday" },
+      { id: "g7", subject: "URGENT: Claim your $5000 reward now", category: "Scam", priority: "High", sender: "unknown@xn--mail.co", receivedAt: "Yesterday" },
+      { id: "g8", subject: "Mom: dinner this weekend?", category: "Personal", priority: "Medium", sender: "Mom", receivedAt: "2d ago" },
+    ],
   },
   linkedin: {
     metrics: [
@@ -136,6 +170,27 @@ const DATA: Record<Provider, ProviderData> = {
       { Icon: Mail, color: "text-blue-600 bg-blue-600/10", title: "Profile activity sync", time: "20 minutes ago" },
       { Icon: Zap, color: "text-emerald-500 bg-emerald-500/10", title: "Sync completed", time: "1 hour ago" },
     ],
+    intelligenceTitle: "AI Message Intelligence",
+    intelligenceSubtitle: "Automatically categorized and prioritized LinkedIn messages",
+    itemLabel: "Message Subject",
+    classificationStats: [
+      { category: "Lead", count: 19 },
+      { category: "Meeting", count: 8 },
+      { category: "Marketing", count: 12 },
+      { category: "Personal", count: 6 },
+      { category: "Newsletter", count: 14 },
+      { category: "Support", count: 3 },
+      { category: "Billing", count: 1 },
+      { category: "Scam", count: 2 },
+    ],
+    classifiedItems: [
+      { id: "l1", subject: "Quick intro — Quant role at Goldman", category: "Lead", priority: "High", sender: "Riya Sharma", receivedAt: "10s ago" },
+      { id: "l2", subject: "5 Financial Engineering roles", category: "Newsletter", priority: "Low", sender: "Job Alerts", receivedAt: "3 min ago" },
+      { id: "l3", subject: "Coffee chat next week?", category: "Meeting", priority: "Medium", sender: "Aarav Khanna", receivedAt: "12 min ago" },
+      { id: "l4", subject: "Premium upgrade — 50% off", category: "Marketing", priority: "Low", sender: "LinkedIn Premium", receivedAt: "1 hr ago" },
+      { id: "l5", subject: "Connection request accepted", category: "Personal", priority: "Low", sender: "Charvi Connections", receivedAt: "2 hr ago" },
+      { id: "l6", subject: "Verify your account immediately", category: "Scam", priority: "High", sender: "support@linkedin-secure.co", receivedAt: "Yesterday" },
+    ],
   },
   instagram: {
     metrics: [
@@ -171,6 +226,27 @@ const DATA: Record<Provider, ProviderData> = {
       { Icon: RefreshCw, color: "text-sky-500 bg-sky-500/10", title: "Mention captured", time: "12 minutes ago" },
       { Icon: Mail, color: "text-pink-500 bg-pink-500/10", title: "Comment activity sync", time: "20 minutes ago" },
       { Icon: Zap, color: "text-emerald-500 bg-emerald-500/10", title: "Sync completed", time: "1 hour ago" },
+    ],
+    intelligenceTitle: "AI DM Intelligence",
+    intelligenceSubtitle: "Automatically categorized and prioritized Instagram messages",
+    itemLabel: "DM / Comment",
+    classificationStats: [
+      { category: "Lead", count: 11 },
+      { category: "Marketing", count: 26 },
+      { category: "Personal", count: 22 },
+      { category: "Newsletter", count: 4 },
+      { category: "Support", count: 5 },
+      { category: "Meeting", count: 2 },
+      { category: "Billing", count: 0 },
+      { category: "Scam", count: 6 },
+    ],
+    classifiedItems: [
+      { id: "i1", subject: "Loved your last post!", category: "Personal", priority: "Low", sender: "@aarav.k", receivedAt: "30s ago" },
+      { id: "i2", subject: "Collab opportunity — paid partnership", category: "Lead", priority: "High", sender: "@brand.studio", receivedAt: "5 min ago" },
+      { id: "i3", subject: "30 new likes on your last reel", category: "Newsletter", priority: "Low", sender: "Instagram", receivedAt: "12 min ago" },
+      { id: "i4", subject: "Flash sale — 24h only", category: "Marketing", priority: "Low", sender: "@shop.daily", receivedAt: "20 min ago" },
+      { id: "i5", subject: "Your account has been suspended — click here", category: "Scam", priority: "High", sender: "@meta-support1", receivedAt: "1 hr ago" },
+      { id: "i6", subject: "Quick question about your tutorial", category: "Support", priority: "Medium", sender: "@learnerx", receivedAt: "2 hr ago" },
     ],
   },
 };
@@ -229,7 +305,7 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
     );
   }
 
-  const firstName = (user?.name ?? "there").split(" ")[0];
+  void user;
   const handleDisconnect = () => { integrations.disconnect(config.provider); setConfirm(false); navigate({ to: "/home" }); };
 
   return (
@@ -238,10 +314,10 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <header>
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
-            Good evening, {firstName}! <span aria-hidden>👋</span>
+            {data.intelligenceTitle}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground md:text-base">
-            Here's what's happening with your {config.name} today.
+            {data.intelligenceSubtitle}
           </p>
         </header>
         <div className="flex items-center gap-3">
@@ -290,72 +366,19 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
             })}
           </section>
 
-          {/* Conversations + Activity chart */}
-          <div className="grid gap-6 lg:grid-cols-5">
-            <div className="rounded-2xl border border-border bg-card/70 p-6 backdrop-blur-xl shadow-[var(--shadow-card)] lg:col-span-3">
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-base font-semibold tracking-tight">{data.conversationsTitle}</h3>
-                <button className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">
-                  View all <ArrowUpRight className="h-3 w-3" />
-                </button>
+          {/* Classification overview */}
+          <section className="space-y-3">
+            <div className="flex items-end justify-between">
+              <div>
+                <h2 className="text-lg font-semibold tracking-tight">Classified Emails Overview</h2>
+                <p className="text-xs text-muted-foreground">AI-classified into 8 categories — counts update after each sync</p>
               </div>
-              <ul className="space-y-2">
-                {data.conversations.map((c) => (
-                  <li key={c.sender + c.subject} className="flex items-start gap-3 rounded-xl border border-transparent p-2.5 transition-colors hover:border-border hover:bg-accent/40">
-                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xs font-semibold ${c.bg}`}>
-                      {c.initials}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="truncate text-sm font-semibold">{c.sender}</p>
-                        {c.important && (
-                          <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">Important</span>
-                        )}
-                      </div>
-                      <p className="truncate text-[13px] font-medium">{c.subject}</p>
-                      <p className="truncate text-[12px] text-muted-foreground">{c.preview}</p>
-                    </div>
-                    <div className="flex shrink-0 items-center gap-2 text-[11px] text-muted-foreground">
-                      {c.time}
-                      <span className={`h-2 w-2 rounded-full ${c.dot}`} />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <button className="mt-4 w-full rounded-xl border border-border bg-background/60 py-2.5 text-sm font-medium text-muted-foreground hover:bg-accent/50">
-                View all conversations
-              </button>
             </div>
+            <ClassificationSummaryCards stats={data.classificationStats} />
+          </section>
 
-            <div className="rounded-2xl border border-border bg-card/70 p-6 backdrop-blur-xl shadow-[var(--shadow-card)] lg:col-span-2">
-              <div className="mb-2 flex items-center justify-between">
-                <h3 className="text-base font-semibold tracking-tight">{data.activityTitle}</h3>
-                <span className="rounded-lg border border-border bg-background px-2 py-1 text-[11px] text-muted-foreground">This Week ▾</span>
-              </div>
-              <p className="mt-2 text-3xl font-semibold leading-none">{data.activityValue}</p>
-              <div className="mt-1.5 flex items-center justify-between">
-                <p className="text-xs text-muted-foreground">{data.activityLabel}</p>
-                <span className="text-[11px] font-medium text-emerald-600">↑ {data.activityDelta}</span>
-              </div>
-              <ActivityChart points={data.chart} />
-              <div className="mt-5">
-                <p className="mb-2 text-sm font-semibold">{data.topSendersTitle}</p>
-                <ul className="space-y-2">
-                  {data.topSenders.map((s) => (
-                    <li key={s.name} className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2.5">
-                        <div className={`flex h-6 w-6 items-center justify-center rounded-md text-[10px] font-semibold ${s.iconColor ?? "bg-muted"}`}>
-                          {s.initials}
-                        </div>
-                        <span className="text-foreground">{s.name}</span>
-                      </div>
-                      <span className="font-semibold text-muted-foreground">{s.count}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+          {/* Classified items table */}
+          <ClassifiedItemsTable items={data.classifiedItems} itemLabel={data.itemLabel} />
 
           {/* AI Insights Banner */}
           <section className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.08] via-primary/[0.04] to-transparent p-6">
