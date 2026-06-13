@@ -20,6 +20,7 @@ import {
 import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useIntegrations, type Provider } from "@/lib/integrations";
+import { EmailIntelligenceSection } from "@/components/EmailIntelligenceSection";
 
 // Backwards-compatible shapes (existing routes still pass these — most are unused
 // in the new dashboard-style layout but accepted to avoid breaking imports).
@@ -358,6 +359,8 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
           </div>
 
           {/* AI Insights Banner */}
+          {config.provider === "gmail" && <EmailIntelligenceSection />}
+
           <section className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.08] via-primary/[0.04] to-transparent p-6">
             <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
               <div className="flex-1">
