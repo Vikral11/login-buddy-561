@@ -20,6 +20,12 @@ import {
 import { useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useIntegrations, type Provider } from "@/lib/integrations";
+import {
+  ClassificationSummaryCards,
+  ClassifiedItemsTable,
+  type CategoryStat,
+  type ClassifiedItem,
+} from "@/components/ClassifiedItems";
 
 // Backwards-compatible shapes (existing routes still pass these — most are unused
 // in the new dashboard-style layout but accepted to avoid breaking imports).
@@ -62,6 +68,11 @@ type ProviderData = {
   topSendersTitle: string;
   topSenders: TopSender[];
   recentActivity: { Icon: LucideIcon; color: string; title: string; time: string }[];
+  classificationStats: CategoryStat[];
+  classifiedItems: ClassifiedItem[];
+  intelligenceTitle: string;
+  intelligenceSubtitle: string;
+  itemLabel: string;
 };
 
 const DATA: Record<Provider, ProviderData> = {
