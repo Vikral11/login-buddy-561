@@ -17,7 +17,6 @@ import {
   Sun,
   Target,
   Zap,
-  Brain,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
@@ -26,7 +25,6 @@ import { useTheme } from "@/lib/theme";
 const nav = [
   { to: "/home", label: "Home", icon: Home },
   { to: "/conversations", label: "Conversations", icon: MessageSquare },
-  { to: "/email-classification", label: "Email Classification", icon: Brain },
   { to: "/opportunities", label: "Opportunities", icon: Target },
   { to: "/action-center", label: "Action Center", icon: Zap, badge: 4 },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
