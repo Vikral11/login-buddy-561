@@ -305,7 +305,7 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
     );
   }
 
-  const firstName = (user?.name ?? "there").split(" ")[0];
+  void user;
   const handleDisconnect = () => { integrations.disconnect(config.provider); setConfirm(false); navigate({ to: "/home" }); };
 
   return (
@@ -314,10 +314,10 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <header>
           <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
-            Good evening, {firstName}! <span aria-hidden>👋</span>
+            {data.intelligenceTitle}
           </h1>
           <p className="mt-2 text-sm text-muted-foreground md:text-base">
-            Here's what's happening with your {config.name} today.
+            {data.intelligenceSubtitle}
           </p>
         </header>
         <div className="flex items-center gap-3">
@@ -366,72 +366,19 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
             })}
           </section>
 
-          {/* Conversations + Activity chart */}
-          <div className="grid gap-6 lg:grid-cols-5">
-            <div className="rounded-2xl border border-border bg-card/70 p-6 backdrop-blur-xl shadow-[var(--shadow-card)] lg:col-span-3">
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-base font-semibold tracking-tight">{data.conversationsTitle}</h3>
-                <button className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline">
-                  View all <ArrowUpRight className="h-3 w-3" />
-                </button>
+          {/* Classification overview */}
+          <section className="space-y-3">
+            <div className="flex items-end justify-between">
+              <div>
+                <h2 className="text-lg font-semibold tracking-tight">Classified Emails Overview</h2>
+                <p className="text-xs text-muted-foreground">AI-classified into 8 categories — counts update after each sync</p>
               </div>
-              <ul className="space-y-2">
-                {data.conversations.map((c) => (
-                  <li key={c.sender + c.subject} className="flex items-start gap-3 rounded-xl border border-transparent p-2.5 transition-colors hover:border-border hover:bg-accent/40">
-                    <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xs font-semibold ${c.bg}`}>
-                      {c.initials}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="truncate text-sm font-semibold">{c.sender}</p>
-                        {c.important && (
-                          <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-[10px] font-semibold text-primary">Important</span>
-                        )}
-                      </div>
-                      <p className="truncate text-[13px] font-medium">{c.subject}</p>
-                      <p className="truncate text-[12px] text-muted-foreground">{c.preview}</p>
-                    </div>
-                    <div className="flex shrink-0 items-center gap-2 text-[11px] text-muted-foreground">
-                      {c.time}
-                      <span className={`h-2 w-2 rounded-full ${c.dot}`} />
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <button className="mt-4 w-full rounded-xl border border-border bg-background/60 py-2.5 text-sm font-medium text-muted-foreground hover:bg-accent/50">
-                View all conversations
-              </button>
             </div>
+            <ClassificationSummaryCards stats={data.classificationStats} />
+          </section>
 
-            <div className="rounded-2xl border border-border bg-card/70 p-6 backdrop-blur-xl shadow-[var(--shadow-card)] lg:col-span-2">
-              <div className="mb-2 flex items-center justify-between">
-                <h3 className="text-base font-semibold tracking-tight">{data.activityTitle}</h3>
-                <span className="rounded-lg border border-border bg-background px-2 py-1 text-[11px] text-muted-foreground">This Week ▾</span>
-              </div>
-              <p className="mt-2 text-3xl font-semibold leading-none">{data.activityValue}</p>
-              <div className="mt-1.5 flex items-center justify-between">
-                <p className="text-xs text-muted-foreground">{data.activityLabel}</p>
-                <span className="text-[11px] font-medium text-emerald-600">↑ {data.activityDelta}</span>
-              </div>
-              <ActivityChart points={data.chart} />
-              <div className="mt-5">
-                <p className="mb-2 text-sm font-semibold">{data.topSendersTitle}</p>
-                <ul className="space-y-2">
-                  {data.topSenders.map((s) => (
-                    <li key={s.name} className="flex items-center justify-between text-sm">
-                      <div className="flex items-center gap-2.5">
-                        <div className={`flex h-6 w-6 items-center justify-center rounded-md text-[10px] font-semibold ${s.iconColor ?? "bg-muted"}`}>
-                          {s.initials}
-                        </div>
-                        <span className="text-foreground">{s.name}</span>
-                      </div>
-                      <span className="font-semibold text-muted-foreground">{s.count}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+          {/* Classified items table */}
+          <ClassifiedItemsTable items={data.classifiedItems} itemLabel={data.itemLabel} />
 
           {/* AI Insights Banner */}
           <section className="relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/[0.08] via-primary/[0.04] to-transparent p-6">
