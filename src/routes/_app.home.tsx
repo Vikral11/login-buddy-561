@@ -164,7 +164,10 @@ function Home() {
             const { Icon } = it;
             const status: Status = state[it.provider].connected ? "connected" : "not_connected";
             const buttonLabel = status === "connected" ? `Manage ${it.name}` : `Connect ${it.name}`;
-            const managePath = `/integrations/${it.provider}/manage`;
+            const managePath =
+              it.provider === "gmail"
+                ? "/gmail/overview"
+                : `/integrations/${it.provider}/manage`;
             const targetHref = (status === "connected" ? managePath : it.href) as string;
             return (
               <motion.div

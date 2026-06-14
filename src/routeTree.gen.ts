@@ -15,8 +15,8 @@ import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AppWorkspaceRouteImport } from './routes/_app.workspace'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppOverviewRouteImport } from './routes/_app.overview'
 import { Route as AppOpportunitiesRouteImport } from './routes/_app.opportunities'
-import { Route as AppInboxRouteImport } from './routes/_app.inbox'
 import { Route as AppHomeRouteImport } from './routes/_app.home'
 import { Route as AppGmailRouteImport } from './routes/_app.gmail'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
@@ -25,6 +25,11 @@ import { Route as AppContactsRouteImport } from './routes/_app.contacts'
 import { Route as AppCalendarRouteImport } from './routes/_app.calendar'
 import { Route as AppAnalyticsRouteImport } from './routes/_app.analytics'
 import { Route as AppActionCenterRouteImport } from './routes/_app.action-center'
+import { Route as AppGmailSummariesRouteImport } from './routes/_app.gmail_.summaries'
+import { Route as AppGmailSettingsRouteImport } from './routes/_app.gmail_.settings'
+import { Route as AppGmailOverviewRouteImport } from './routes/_app.gmail_.overview'
+import { Route as AppGmailInboxRouteImport } from './routes/_app.gmail_.inbox'
+import { Route as AppGmailAnalyticsRouteImport } from './routes/_app.gmail_.analytics'
 import { Route as AppIntegrationsLinkedinSetupRouteImport } from './routes/_app.integrations.linkedin.setup'
 import { Route as AppIntegrationsLinkedinManageRouteImport } from './routes/_app.integrations.linkedin.manage'
 import { Route as AppIntegrationsInstagramSetupRouteImport } from './routes/_app.integrations.instagram.setup'
@@ -61,14 +66,14 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const AppOverviewRoute = AppOverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppOpportunitiesRoute = AppOpportunitiesRouteImport.update({
   id: '/opportunities',
   path: '/opportunities',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppInboxRoute = AppInboxRouteImport.update({
-  id: '/inbox',
-  path: '/inbox',
   getParentRoute: () => AppRoute,
 } as any)
 const AppHomeRoute = AppHomeRouteImport.update({
@@ -109,6 +114,31 @@ const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
 const AppActionCenterRoute = AppActionCenterRouteImport.update({
   id: '/action-center',
   path: '/action-center',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGmailSummariesRoute = AppGmailSummariesRouteImport.update({
+  id: '/gmail_/summaries',
+  path: '/gmail/summaries',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGmailSettingsRoute = AppGmailSettingsRouteImport.update({
+  id: '/gmail_/settings',
+  path: '/gmail/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGmailOverviewRoute = AppGmailOverviewRouteImport.update({
+  id: '/gmail_/overview',
+  path: '/gmail/overview',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGmailInboxRoute = AppGmailInboxRouteImport.update({
+  id: '/gmail_/inbox',
+  path: '/gmail/inbox',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppGmailAnalyticsRoute = AppGmailAnalyticsRouteImport.update({
+  id: '/gmail_/analytics',
+  path: '/gmail/analytics',
   getParentRoute: () => AppRoute,
 } as any)
 const AppIntegrationsLinkedinSetupRoute =
@@ -158,12 +188,17 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/gmail': typeof AppGmailRoute
   '/home': typeof AppHomeRoute
-  '/inbox': typeof AppInboxRoute
   '/opportunities': typeof AppOpportunitiesRoute
+  '/overview': typeof AppOverviewRoute
   '/settings': typeof AppSettingsRoute
   '/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/gmail/analytics': typeof AppGmailAnalyticsRoute
+  '/gmail/inbox': typeof AppGmailInboxRoute
+  '/gmail/overview': typeof AppGmailOverviewRoute
+  '/gmail/settings': typeof AppGmailSettingsRoute
+  '/gmail/summaries': typeof AppGmailSummariesRoute
   '/integrations/gmail/manage': typeof AppIntegrationsGmailManageRoute
   '/integrations/gmail/setup': typeof AppIntegrationsGmailSetupRoute
   '/integrations/instagram/manage': typeof AppIntegrationsInstagramManageRoute
@@ -181,12 +216,17 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
   '/gmail': typeof AppGmailRoute
   '/home': typeof AppHomeRoute
-  '/inbox': typeof AppInboxRoute
   '/opportunities': typeof AppOpportunitiesRoute
+  '/overview': typeof AppOverviewRoute
   '/settings': typeof AppSettingsRoute
   '/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/gmail/analytics': typeof AppGmailAnalyticsRoute
+  '/gmail/inbox': typeof AppGmailInboxRoute
+  '/gmail/overview': typeof AppGmailOverviewRoute
+  '/gmail/settings': typeof AppGmailSettingsRoute
+  '/gmail/summaries': typeof AppGmailSummariesRoute
   '/integrations/gmail/manage': typeof AppIntegrationsGmailManageRoute
   '/integrations/gmail/setup': typeof AppIntegrationsGmailSetupRoute
   '/integrations/instagram/manage': typeof AppIntegrationsInstagramManageRoute
@@ -206,12 +246,17 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/gmail': typeof AppGmailRoute
   '/_app/home': typeof AppHomeRoute
-  '/_app/inbox': typeof AppInboxRoute
   '/_app/opportunities': typeof AppOpportunitiesRoute
+  '/_app/overview': typeof AppOverviewRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/_app/gmail_/analytics': typeof AppGmailAnalyticsRoute
+  '/_app/gmail_/inbox': typeof AppGmailInboxRoute
+  '/_app/gmail_/overview': typeof AppGmailOverviewRoute
+  '/_app/gmail_/settings': typeof AppGmailSettingsRoute
+  '/_app/gmail_/summaries': typeof AppGmailSummariesRoute
   '/_app/integrations/gmail/manage': typeof AppIntegrationsGmailManageRoute
   '/_app/integrations/gmail/setup': typeof AppIntegrationsGmailSetupRoute
   '/_app/integrations/instagram/manage': typeof AppIntegrationsInstagramManageRoute
@@ -231,12 +276,17 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/gmail'
     | '/home'
-    | '/inbox'
     | '/opportunities'
+    | '/overview'
     | '/settings'
     | '/workspace'
     | '/auth/login'
     | '/auth/register'
+    | '/gmail/analytics'
+    | '/gmail/inbox'
+    | '/gmail/overview'
+    | '/gmail/settings'
+    | '/gmail/summaries'
     | '/integrations/gmail/manage'
     | '/integrations/gmail/setup'
     | '/integrations/instagram/manage'
@@ -254,12 +304,17 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/gmail'
     | '/home'
-    | '/inbox'
     | '/opportunities'
+    | '/overview'
     | '/settings'
     | '/workspace'
     | '/auth/login'
     | '/auth/register'
+    | '/gmail/analytics'
+    | '/gmail/inbox'
+    | '/gmail/overview'
+    | '/gmail/settings'
+    | '/gmail/summaries'
     | '/integrations/gmail/manage'
     | '/integrations/gmail/setup'
     | '/integrations/instagram/manage'
@@ -278,12 +333,17 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/gmail'
     | '/_app/home'
-    | '/_app/inbox'
     | '/_app/opportunities'
+    | '/_app/overview'
     | '/_app/settings'
     | '/_app/workspace'
     | '/auth/login'
     | '/auth/register'
+    | '/_app/gmail_/analytics'
+    | '/_app/gmail_/inbox'
+    | '/_app/gmail_/overview'
+    | '/_app/gmail_/settings'
+    | '/_app/gmail_/summaries'
     | '/_app/integrations/gmail/manage'
     | '/_app/integrations/gmail/setup'
     | '/_app/integrations/instagram/manage'
@@ -343,18 +403,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/overview': {
+      id: '/_app/overview'
+      path: '/overview'
+      fullPath: '/overview'
+      preLoaderRoute: typeof AppOverviewRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/opportunities': {
       id: '/_app/opportunities'
       path: '/opportunities'
       fullPath: '/opportunities'
       preLoaderRoute: typeof AppOpportunitiesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/inbox': {
-      id: '/_app/inbox'
-      path: '/inbox'
-      fullPath: '/inbox'
-      preLoaderRoute: typeof AppInboxRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/home': {
@@ -413,6 +473,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppActionCenterRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/gmail_/summaries': {
+      id: '/_app/gmail_/summaries'
+      path: '/gmail/summaries'
+      fullPath: '/gmail/summaries'
+      preLoaderRoute: typeof AppGmailSummariesRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/gmail_/settings': {
+      id: '/_app/gmail_/settings'
+      path: '/gmail/settings'
+      fullPath: '/gmail/settings'
+      preLoaderRoute: typeof AppGmailSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/gmail_/overview': {
+      id: '/_app/gmail_/overview'
+      path: '/gmail/overview'
+      fullPath: '/gmail/overview'
+      preLoaderRoute: typeof AppGmailOverviewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/gmail_/inbox': {
+      id: '/_app/gmail_/inbox'
+      path: '/gmail/inbox'
+      fullPath: '/gmail/inbox'
+      preLoaderRoute: typeof AppGmailInboxRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/gmail_/analytics': {
+      id: '/_app/gmail_/analytics'
+      path: '/gmail/analytics'
+      fullPath: '/gmail/analytics'
+      preLoaderRoute: typeof AppGmailAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/integrations/linkedin/setup': {
       id: '/_app/integrations/linkedin/setup'
       path: '/integrations/linkedin/setup'
@@ -467,10 +562,15 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppGmailRoute: typeof AppGmailRoute
   AppHomeRoute: typeof AppHomeRoute
-  AppInboxRoute: typeof AppInboxRoute
   AppOpportunitiesRoute: typeof AppOpportunitiesRoute
+  AppOverviewRoute: typeof AppOverviewRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppWorkspaceRoute: typeof AppWorkspaceRoute
+  AppGmailAnalyticsRoute: typeof AppGmailAnalyticsRoute
+  AppGmailInboxRoute: typeof AppGmailInboxRoute
+  AppGmailOverviewRoute: typeof AppGmailOverviewRoute
+  AppGmailSettingsRoute: typeof AppGmailSettingsRoute
+  AppGmailSummariesRoute: typeof AppGmailSummariesRoute
   AppIntegrationsGmailManageRoute: typeof AppIntegrationsGmailManageRoute
   AppIntegrationsGmailSetupRoute: typeof AppIntegrationsGmailSetupRoute
   AppIntegrationsInstagramManageRoute: typeof AppIntegrationsInstagramManageRoute
@@ -488,10 +588,15 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppGmailRoute: AppGmailRoute,
   AppHomeRoute: AppHomeRoute,
-  AppInboxRoute: AppInboxRoute,
   AppOpportunitiesRoute: AppOpportunitiesRoute,
+  AppOverviewRoute: AppOverviewRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppWorkspaceRoute: AppWorkspaceRoute,
+  AppGmailAnalyticsRoute: AppGmailAnalyticsRoute,
+  AppGmailInboxRoute: AppGmailInboxRoute,
+  AppGmailOverviewRoute: AppGmailOverviewRoute,
+  AppGmailSettingsRoute: AppGmailSettingsRoute,
+  AppGmailSummariesRoute: AppGmailSummariesRoute,
   AppIntegrationsGmailManageRoute: AppIntegrationsGmailManageRoute,
   AppIntegrationsGmailSetupRoute: AppIntegrationsGmailSetupRoute,
   AppIntegrationsInstagramManageRoute: AppIntegrationsInstagramManageRoute,
@@ -511,13 +616,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

@@ -10,22 +10,15 @@ import {
   type Priority,
 } from "@/components/EmailIntelligenceSection";
 
-export const Route = createFileRoute("/_app/inbox")({
+export const Route = createFileRoute("/_app/gmail_/inbox")({
   head: () => ({ meta: [{ title: "Smart Inbox — Agentic" }] }),
   component: SmartInboxPage,
 });
 
-const CATEGORIES: Category[] = [
-  "Marketing", "Billing", "Lead", "Support",
-  "Personal", "Meeting", "Newsletter", "Scam",
-];
-const PRIORITIES: Priority[] = ["High", "Medium", "Low"];
+const CATEGORIES: Category[] = ["Marketing","Billing","Lead","Support","Personal","Meeting","Newsletter","Scam"];
+const PRIORITIES: Priority[] = ["High","Medium","Low"];
 
-type EnrichedEmail = ClassifiedEmail & {
-  body: string;
-  summary: string;
-  insights: string[];
-};
+type EnrichedEmail = ClassifiedEmail & { body: string; summary: string; insights: string[] };
 
 const BODIES: Record<Category, { body: string; summary: string; insights: string[] }> = {
   Billing: {
@@ -70,10 +63,7 @@ const BODIES: Record<Category, { body: string; summary: string; insights: string
   },
 };
 
-const EMAILS: EnrichedEmail[] = __sampleClassifiedEmails.map((e) => ({
-  ...e,
-  ...BODIES[e.category],
-}));
+const EMAILS: EnrichedEmail[] = __sampleClassifiedEmails.map((e) => ({ ...e, ...BODIES[e.category] }));
 
 function SmartInboxPage() {
   const [categoryFilter, setCategoryFilter] = useState<Category | "All">("All");
@@ -81,31 +71,23 @@ function SmartInboxPage() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState<string>(EMAILS[0]?.id ?? "");
 
-  const filtered = useMemo(() => {
-    return EMAILS.filter((e) => {
-      if (categoryFilter !== "All" && e.category !== categoryFilter) return false;
-      if (priorityFilter !== "All" && e.priority !== priorityFilter) return false;
-      if (query) {
-        const q = query.toLowerCase();
-        if (
-          !e.subject.toLowerCase().includes(q) &&
-          !e.sender.toLowerCase().includes(q)
-        ) return false;
-      }
-      return true;
-    });
-  }, [categoryFilter, priorityFilter, query]);
+  const filtered = useMemo(() => EMAILS.filter((e) => {
+    if (categoryFilter !== "All" && e.category !== categoryFilter) return false;
+    if (priorityFilter !== "All" && e.priority !== priorityFilter) return false;
+    if (query) {
+      const q = query.toLowerCase();
+      if (!e.subject.toLowerCase().includes(q) && !e.sender.toLowerCase().includes(q)) return false;
+    }
+    return true;
+  }), [categoryFilter, priorityFilter, query]);
 
   const grouped = useMemo(() => {
     const g: Partial<Record<Category, EnrichedEmail[]>> = {};
-    filtered.forEach((e) => {
-      (g[e.category] ||= []).push(e);
-    });
+    filtered.forEach((e) => { (g[e.category] ||= []).push(e); });
     return g;
   }, [filtered]);
 
   const selected = filtered.find((e) => e.id === selectedId) ?? filtered[0];
-
   const activeFilters = (categoryFilter !== "All" ? 1 : 0) + (priorityFilter !== "All" ? 1 : 0);
 
   return (
@@ -116,11 +98,10 @@ function SmartInboxPage() {
         </div>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight md:text-4xl">Smart Inbox</h1>
         <p className="mt-2 text-sm text-muted-foreground md:text-base">
-          Emails are automatically classified and prioritized by AI. Filter, group, and read with full context.
+          Emails automatically classified and prioritized by AI. Filter, group, and read with full context.
         </p>
       </header>
 
-      {/* Filters */}
       <div className="rounded-2xl border border-border bg-card/70 p-4 backdrop-blur-xl shadow-[var(--shadow-card)]">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="relative w-full md:max-w-sm">
@@ -160,7 +141,6 @@ function SmartInboxPage() {
           </div>
         </div>
 
-        {/* Quick category chips */}
         <div className="mt-3 flex flex-wrap gap-1.5">
           <Chip active={categoryFilter === "All"} onClick={() => setCategoryFilter("All")} label={`All · ${EMAILS.length}`} />
           {CATEGORIES.map((c) => (
@@ -174,9 +154,7 @@ function SmartInboxPage() {
         </div>
       </div>
 
-      {/* List + Detail */}
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
-        {/* List, grouped by category */}
         <div className="space-y-5">
           {Object.keys(grouped).length === 0 ? (
             <div className="rounded-2xl border border-dashed border-border bg-card/40 p-10 text-center">
@@ -221,7 +199,6 @@ function SmartInboxPage() {
           )}
         </div>
 
-        {/* Detail panel */}
         <aside className="rounded-2xl border border-border bg-card/70 p-5 backdrop-blur-xl shadow-[var(--shadow-card)] lg:sticky lg:top-4 lg:self-start">
           {selected ? (
             <div className="space-y-5">
@@ -244,9 +221,7 @@ function SmartInboxPage() {
 
               <div>
                 <p className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">Email Content</p>
-                <p className="mt-2 whitespace-pre-line rounded-xl border border-border bg-background/50 p-4 text-sm leading-relaxed">
-                  {selected.body}
-                </p>
+                <p className="mt-2 whitespace-pre-line rounded-xl border border-border bg-background/50 p-4 text-sm leading-relaxed">{selected.body}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
@@ -286,9 +261,7 @@ function Chip({ active, onClick, label }: { active: boolean; onClick: () => void
     <button
       onClick={onClick}
       className={`rounded-full border px-3 py-1 text-xs transition-colors ${
-        active
-          ? "border-primary/50 bg-primary/10 text-foreground"
-          : "border-border text-muted-foreground hover:text-foreground"
+        active ? "border-primary/50 bg-primary/10 text-foreground" : "border-border text-muted-foreground hover:text-foreground"
       }`}
     >
       {label}
