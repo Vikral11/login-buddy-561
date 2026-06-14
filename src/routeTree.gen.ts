@@ -26,6 +26,8 @@ import { Route as AppCalendarRouteImport } from './routes/_app.calendar'
 import { Route as AppAnalyticsRouteImport } from './routes/_app.analytics'
 import { Route as AppActionCenterRouteImport } from './routes/_app.action-center'
 import { Route as GmailGmailIndexRouteImport } from './routes/_gmail.gmail.index'
+import { Route as GmailGmailOverviewRouteImport } from './routes/_gmail.gmail.overview'
+import { Route as GmailGmailInboxRouteImport } from './routes/_gmail.gmail.inbox'
 import { Route as AppIntegrationsLinkedinSetupRouteImport } from './routes/_app.integrations.linkedin.setup'
 import { Route as AppIntegrationsLinkedinManageRouteImport } from './routes/_app.integrations.linkedin.manage'
 import { Route as AppIntegrationsInstagramSetupRouteImport } from './routes/_app.integrations.instagram.setup'
@@ -115,6 +117,16 @@ const GmailGmailIndexRoute = GmailGmailIndexRouteImport.update({
   path: '/gmail/',
   getParentRoute: () => GmailRoute,
 } as any)
+const GmailGmailOverviewRoute = GmailGmailOverviewRouteImport.update({
+  id: '/gmail/overview',
+  path: '/gmail/overview',
+  getParentRoute: () => GmailRoute,
+} as any)
+const GmailGmailInboxRoute = GmailGmailInboxRouteImport.update({
+  id: '/gmail/inbox',
+  path: '/gmail/inbox',
+  getParentRoute: () => GmailRoute,
+} as any)
 const AppIntegrationsLinkedinSetupRoute =
   AppIntegrationsLinkedinSetupRouteImport.update({
     id: '/integrations/linkedin/setup',
@@ -166,6 +178,8 @@ export interface FileRoutesByFullPath {
   '/home': typeof ConnectHomeRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/gmail/inbox': typeof GmailGmailInboxRoute
+  '/gmail/overview': typeof GmailGmailOverviewRoute
   '/gmail/': typeof GmailGmailIndexRoute
   '/integrations/gmail/manage': typeof AppIntegrationsGmailManageRoute
   '/integrations/gmail/setup': typeof AppIntegrationsGmailSetupRoute
@@ -188,6 +202,8 @@ export interface FileRoutesByTo {
   '/home': typeof ConnectHomeRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/gmail/inbox': typeof GmailGmailInboxRoute
+  '/gmail/overview': typeof GmailGmailOverviewRoute
   '/gmail': typeof GmailGmailIndexRoute
   '/integrations/gmail/manage': typeof AppIntegrationsGmailManageRoute
   '/integrations/gmail/setup': typeof AppIntegrationsGmailSetupRoute
@@ -214,6 +230,8 @@ export interface FileRoutesById {
   '/_connect/home': typeof ConnectHomeRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/_gmail/gmail/inbox': typeof GmailGmailInboxRoute
+  '/_gmail/gmail/overview': typeof GmailGmailOverviewRoute
   '/_gmail/gmail/': typeof GmailGmailIndexRoute
   '/_app/integrations/gmail/manage': typeof AppIntegrationsGmailManageRoute
   '/_app/integrations/gmail/setup': typeof AppIntegrationsGmailSetupRoute
@@ -238,6 +256,8 @@ export interface FileRouteTypes {
     | '/home'
     | '/auth/login'
     | '/auth/register'
+    | '/gmail/inbox'
+    | '/gmail/overview'
     | '/gmail/'
     | '/integrations/gmail/manage'
     | '/integrations/gmail/setup'
@@ -260,6 +280,8 @@ export interface FileRouteTypes {
     | '/home'
     | '/auth/login'
     | '/auth/register'
+    | '/gmail/inbox'
+    | '/gmail/overview'
     | '/gmail'
     | '/integrations/gmail/manage'
     | '/integrations/gmail/setup'
@@ -285,6 +307,8 @@ export interface FileRouteTypes {
     | '/_connect/home'
     | '/auth/login'
     | '/auth/register'
+    | '/_gmail/gmail/inbox'
+    | '/_gmail/gmail/overview'
     | '/_gmail/gmail/'
     | '/_app/integrations/gmail/manage'
     | '/_app/integrations/gmail/setup'
@@ -424,6 +448,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GmailGmailIndexRouteImport
       parentRoute: typeof GmailRoute
     }
+    '/_gmail/gmail/overview': {
+      id: '/_gmail/gmail/overview'
+      path: '/gmail/overview'
+      fullPath: '/gmail/overview'
+      preLoaderRoute: typeof GmailGmailOverviewRouteImport
+      parentRoute: typeof GmailRoute
+    }
+    '/_gmail/gmail/inbox': {
+      id: '/_gmail/gmail/inbox'
+      path: '/gmail/inbox'
+      fullPath: '/gmail/inbox'
+      preLoaderRoute: typeof GmailGmailInboxRouteImport
+      parentRoute: typeof GmailRoute
+    }
     '/_app/integrations/linkedin/setup': {
       id: '/_app/integrations/linkedin/setup'
       path: '/integrations/linkedin/setup'
@@ -519,10 +557,14 @@ const ConnectRouteWithChildren =
   ConnectRoute._addFileChildren(ConnectRouteChildren)
 
 interface GmailRouteChildren {
+  GmailGmailInboxRoute: typeof GmailGmailInboxRoute
+  GmailGmailOverviewRoute: typeof GmailGmailOverviewRoute
   GmailGmailIndexRoute: typeof GmailGmailIndexRoute
 }
 
 const GmailRouteChildren: GmailRouteChildren = {
+  GmailGmailInboxRoute: GmailGmailInboxRoute,
+  GmailGmailOverviewRoute: GmailGmailOverviewRoute,
   GmailGmailIndexRoute: GmailGmailIndexRoute,
 }
 
