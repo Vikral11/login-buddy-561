@@ -205,7 +205,7 @@ function ActivityChart({ points }: { points: number[] }) {
   );
 }
 
-export function IntegrationManagePage({ config }: { config: ManageConfig }) {
+export function IntegrationManagePage({ config, alwaysShow = false }: { config: ManageConfig; alwaysShow?: boolean }) {
   const navigate = useNavigate();
   const integrations = useIntegrations();
   const { user } = useAuth();
@@ -214,7 +214,7 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
   const data = DATA[config.provider];
   const { Icon: ProviderIcon } = config;
 
-  if (!record.connected) {
+  if (!record.connected && !alwaysShow) {
     return (
       <div className="mx-auto max-w-3xl py-16 text-center">
         <h1 className="text-2xl font-semibold">{config.name} is not connected</h1>
