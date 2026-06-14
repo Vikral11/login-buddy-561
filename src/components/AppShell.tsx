@@ -3,37 +3,40 @@ import { motion } from "framer-motion";
 import {
   BarChart3,
   Bell,
-  Calendar,
   ChevronDown,
-  Contact,
   Home,
   Inbox,
+  Link2,
   LogOut,
-  MessageSquare,
   Moon,
+  NotebookPen,
   Search,
   Send,
   Settings,
   Sparkles,
   Sun,
-  Target,
-  Zap,
+  type LucideIcon,
 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
 
-const nav = [
-  { to: "/home", label: "Home", icon: Home },
-  { to: "/inbox", label: "Smart Inbox", icon: Inbox },
-  { to: "/conversations", label: "Conversations", icon: MessageSquare },
-  { to: "/opportunities", label: "Opportunities", icon: Target },
-  { to: "/action-center", label: "Action Center", icon: Zap, badge: 4 },
+type NavItem = { to: string; label: string; icon: LucideIcon; badge?: number };
+
+const connectNav: NavItem[] = [
+  { to: "/overview", label: "Overview", icon: Home },
+  { to: "/home", label: "Connect Accounts", icon: Link2 },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
-  { to: "/contacts", label: "Contacts", icon: Contact },
-  { to: "/calendar", label: "Calendar", icon: Calendar },
   { to: "/settings", label: "Settings", icon: Settings },
-] as const;
+];
+
+const gmailNav: NavItem[] = [
+  { to: "/gmail/overview", label: "Overview", icon: Home },
+  { to: "/gmail/inbox", label: "Smart Inbox", icon: Inbox },
+  { to: "/gmail/summaries", label: "Summaries", icon: NotebookPen },
+  { to: "/gmail/analytics", label: "Analytics", icon: BarChart3 },
+  { to: "/gmail/settings", label: "Settings", icon: Settings },
+];
 
 export function AppShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
@@ -43,23 +46,34 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [profileOpen, setProfileOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const inGmailContext =
+    pathname.startsWith("/gmail/") ||
+    pathname === "/integrations/gmail/manage";
+  const nav = inGmailContext ? gmailNav : connectNav;
+  const workspaceLabel = inGmailContext ? "Gmail Intelligence" : "Agentic";
+
   const Sidebar = (
     <div className="flex h-full flex-col">
       <div className="flex items-center gap-2.5 px-6 py-6">
         <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-glow shadow-[var(--shadow-glow)]">
           <Send className="h-4 w-4 -rotate-12 text-primary-foreground" />
         </div>
-        <p className="text-lg font-bold tracking-tight">Agentic</p>
+        <div className="min-w-0">
+          <p className="truncate text-lg font-bold leading-tight tracking-tight">Agentic</p>
+          <p className="truncate text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{workspaceLabel}</p>
+        </div>
       </div>
 
       <nav className="flex-1 space-y-1 px-3">
         {nav.map((n) => {
-          const active = pathname === n.to || (n.to !== "/home" && pathname.startsWith(n.to));
+          const active =
+            pathname === n.to ||
+            (n.to !== "/home" && n.to !== "/overview" && pathname.startsWith(n.to + "/"));
           const Icon = n.icon;
           return (
             <Link
               key={n.to}
-              to={n.to}
+              to={n.to as never}
               onClick={() => setMobileOpen(false)}
               className="group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground"
             >
@@ -72,7 +86,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               )}
               <Icon className={`relative h-4 w-4 transition-transform group-hover:translate-x-0.5 ${active ? "text-primary" : ""}`} />
               <span className={`relative flex-1 ${active ? "text-foreground font-medium" : ""}`}>{n.label}</span>
-              {"badge" in n && n.badge ? (
+              {n.badge ? (
                 <span className="relative inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-destructive px-1.5 text-[10px] font-semibold text-destructive-foreground">
                   {n.badge}
                 </span>
@@ -80,6 +94,16 @@ export function AppShell({ children }: { children: ReactNode }) {
             </Link>
           );
         })}
+        {inGmailContext && (
+          <Link
+            to={"/home" as never}
+            onClick={() => setMobileOpen(false)}
+            className="mt-4 flex items-center gap-3 rounded-xl border border-dashed border-border px-3 py-2.5 text-xs text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground"
+          >
+            <Link2 className="h-3.5 w-3.5" />
+            Back to Connect Accounts
+          </Link>
+        )}
       </nav>
 
       <div className="mx-3 mb-3 rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 to-primary-glow/10 p-4">

@@ -16,7 +16,6 @@ import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AppWorkspaceRouteImport } from './routes/_app.workspace'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
 import { Route as AppOpportunitiesRouteImport } from './routes/_app.opportunities'
-import { Route as AppInboxRouteImport } from './routes/_app.inbox'
 import { Route as AppHomeRouteImport } from './routes/_app.home'
 import { Route as AppGmailRouteImport } from './routes/_app.gmail'
 import { Route as AppDashboardRouteImport } from './routes/_app.dashboard'
@@ -64,11 +63,6 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
 const AppOpportunitiesRoute = AppOpportunitiesRouteImport.update({
   id: '/opportunities',
   path: '/opportunities',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppInboxRoute = AppInboxRouteImport.update({
-  id: '/inbox',
-  path: '/inbox',
   getParentRoute: () => AppRoute,
 } as any)
 const AppHomeRoute = AppHomeRouteImport.update({
@@ -158,7 +152,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/gmail': typeof AppGmailRoute
   '/home': typeof AppHomeRoute
-  '/inbox': typeof AppInboxRoute
   '/opportunities': typeof AppOpportunitiesRoute
   '/settings': typeof AppSettingsRoute
   '/workspace': typeof AppWorkspaceRoute
@@ -181,7 +174,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
   '/gmail': typeof AppGmailRoute
   '/home': typeof AppHomeRoute
-  '/inbox': typeof AppInboxRoute
   '/opportunities': typeof AppOpportunitiesRoute
   '/settings': typeof AppSettingsRoute
   '/workspace': typeof AppWorkspaceRoute
@@ -206,7 +198,6 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/gmail': typeof AppGmailRoute
   '/_app/home': typeof AppHomeRoute
-  '/_app/inbox': typeof AppInboxRoute
   '/_app/opportunities': typeof AppOpportunitiesRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/workspace': typeof AppWorkspaceRoute
@@ -231,7 +222,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/gmail'
     | '/home'
-    | '/inbox'
     | '/opportunities'
     | '/settings'
     | '/workspace'
@@ -254,7 +244,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/gmail'
     | '/home'
-    | '/inbox'
     | '/opportunities'
     | '/settings'
     | '/workspace'
@@ -278,7 +267,6 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/gmail'
     | '/_app/home'
-    | '/_app/inbox'
     | '/_app/opportunities'
     | '/_app/settings'
     | '/_app/workspace'
@@ -348,13 +336,6 @@ declare module '@tanstack/react-router' {
       path: '/opportunities'
       fullPath: '/opportunities'
       preLoaderRoute: typeof AppOpportunitiesRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/_app/inbox': {
-      id: '/_app/inbox'
-      path: '/inbox'
-      fullPath: '/inbox'
-      preLoaderRoute: typeof AppInboxRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/home': {
@@ -467,7 +448,6 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppGmailRoute: typeof AppGmailRoute
   AppHomeRoute: typeof AppHomeRoute
-  AppInboxRoute: typeof AppInboxRoute
   AppOpportunitiesRoute: typeof AppOpportunitiesRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppWorkspaceRoute: typeof AppWorkspaceRoute
@@ -488,7 +468,6 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppGmailRoute: AppGmailRoute,
   AppHomeRoute: AppHomeRoute,
-  AppInboxRoute: AppInboxRoute,
   AppOpportunitiesRoute: AppOpportunitiesRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppWorkspaceRoute: AppWorkspaceRoute,
@@ -511,13 +490,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
