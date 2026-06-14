@@ -6,6 +6,7 @@ export const Route = createFileRoute("/_app/gmail_/overview")({
   head: () => ({ meta: [{ title: "Gmail Overview — Agentic" }] }),
   component: () => (
     <IntegrationManagePage
+      alwaysShow
       config={{
         provider: "gmail",
         name: "Gmail",
