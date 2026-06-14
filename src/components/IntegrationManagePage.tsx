@@ -245,15 +245,6 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
           </p>
         </header>
         <div className="flex items-center gap-3">
-          {config.provider === "gmail" && (
-            <Link
-              to={"/gmail/classifications" as never}
-              className="inline-flex h-10 items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/80 px-4 text-sm font-medium text-primary-foreground shadow-[var(--shadow-card)] hover:opacity-95"
-            >
-              <Sparkles className="h-4 w-4" />
-              View Classifications
-            </Link>
-          )}
           <div className="hidden md:flex items-center gap-2 rounded-xl border border-border bg-card/70 px-3.5 py-2.5 text-sm text-muted-foreground shadow-[var(--shadow-card)]">
             <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3-3"/></svg>
             <span className="w-48">Search anything...</span>
