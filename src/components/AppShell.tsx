@@ -7,6 +7,7 @@ import {
   ChevronDown,
   Contact,
   Home,
+  Inbox,
   LogOut,
   MessageSquare,
   Moon,
@@ -24,6 +25,7 @@ import { useTheme } from "@/lib/theme";
 
 const nav = [
   { to: "/home", label: "Home", icon: Home },
+  { to: "/inbox", label: "Smart Inbox", icon: Inbox },
   { to: "/conversations", label: "Conversations", icon: MessageSquare },
   { to: "/opportunities", label: "Opportunities", icon: Target },
   { to: "/action-center", label: "Action Center", icon: Zap, badge: 4 },
