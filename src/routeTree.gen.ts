@@ -15,6 +15,7 @@ import { Route as AuthRegisterRouteImport } from './routes/auth.register'
 import { Route as AuthLoginRouteImport } from './routes/auth.login'
 import { Route as AppWorkspaceRouteImport } from './routes/_app.workspace'
 import { Route as AppSettingsRouteImport } from './routes/_app.settings'
+import { Route as AppOverviewRouteImport } from './routes/_app.overview'
 import { Route as AppOpportunitiesRouteImport } from './routes/_app.opportunities'
 import { Route as AppHomeRouteImport } from './routes/_app.home'
 import { Route as AppGmailRouteImport } from './routes/_app.gmail'
@@ -58,6 +59,11 @@ const AppWorkspaceRoute = AppWorkspaceRouteImport.update({
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppOverviewRoute = AppOverviewRouteImport.update({
+  id: '/overview',
+  path: '/overview',
   getParentRoute: () => AppRoute,
 } as any)
 const AppOpportunitiesRoute = AppOpportunitiesRouteImport.update({
@@ -153,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/gmail': typeof AppGmailRoute
   '/home': typeof AppHomeRoute
   '/opportunities': typeof AppOpportunitiesRoute
+  '/overview': typeof AppOverviewRoute
   '/settings': typeof AppSettingsRoute
   '/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
@@ -175,6 +182,7 @@ export interface FileRoutesByTo {
   '/gmail': typeof AppGmailRoute
   '/home': typeof AppHomeRoute
   '/opportunities': typeof AppOpportunitiesRoute
+  '/overview': typeof AppOverviewRoute
   '/settings': typeof AppSettingsRoute
   '/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
@@ -199,6 +207,7 @@ export interface FileRoutesById {
   '/_app/gmail': typeof AppGmailRoute
   '/_app/home': typeof AppHomeRoute
   '/_app/opportunities': typeof AppOpportunitiesRoute
+  '/_app/overview': typeof AppOverviewRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
@@ -223,6 +232,7 @@ export interface FileRouteTypes {
     | '/gmail'
     | '/home'
     | '/opportunities'
+    | '/overview'
     | '/settings'
     | '/workspace'
     | '/auth/login'
@@ -245,6 +255,7 @@ export interface FileRouteTypes {
     | '/gmail'
     | '/home'
     | '/opportunities'
+    | '/overview'
     | '/settings'
     | '/workspace'
     | '/auth/login'
@@ -268,6 +279,7 @@ export interface FileRouteTypes {
     | '/_app/gmail'
     | '/_app/home'
     | '/_app/opportunities'
+    | '/_app/overview'
     | '/_app/settings'
     | '/_app/workspace'
     | '/auth/login'
@@ -329,6 +341,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/overview': {
+      id: '/_app/overview'
+      path: '/overview'
+      fullPath: '/overview'
+      preLoaderRoute: typeof AppOverviewRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/opportunities': {
@@ -449,6 +468,7 @@ interface AppRouteChildren {
   AppGmailRoute: typeof AppGmailRoute
   AppHomeRoute: typeof AppHomeRoute
   AppOpportunitiesRoute: typeof AppOpportunitiesRoute
+  AppOverviewRoute: typeof AppOverviewRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppWorkspaceRoute: typeof AppWorkspaceRoute
   AppIntegrationsGmailManageRoute: typeof AppIntegrationsGmailManageRoute
@@ -469,6 +489,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppGmailRoute: AppGmailRoute,
   AppHomeRoute: AppHomeRoute,
   AppOpportunitiesRoute: AppOpportunitiesRoute,
+  AppOverviewRoute: AppOverviewRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppWorkspaceRoute: AppWorkspaceRoute,
   AppIntegrationsGmailManageRoute: AppIntegrationsGmailManageRoute,
@@ -490,3 +511,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
