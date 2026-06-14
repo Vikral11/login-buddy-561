@@ -247,7 +247,7 @@ export function IntegrationManagePage({ config }: { config: ManageConfig }) {
         <div className="flex items-center gap-3">
           {config.provider === "gmail" && (
             <Link
-              to={"/gmail/overview" as never}
+              to={"/gmail/classifications" as never}
               className="inline-flex h-10 items-center gap-2 rounded-xl bg-gradient-to-r from-primary to-primary/80 px-4 text-sm font-medium text-primary-foreground shadow-[var(--shadow-card)] hover:opacity-95"
             >
               <Sparkles className="h-4 w-4" />
