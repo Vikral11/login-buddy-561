@@ -28,6 +28,7 @@ import { Route as AppActionCenterRouteImport } from './routes/_app.action-center
 import { Route as AppGmailSummariesRouteImport } from './routes/_app.gmail_.summaries'
 import { Route as AppGmailOverviewRouteImport } from './routes/_app.gmail_.overview'
 import { Route as AppGmailInboxRouteImport } from './routes/_app.gmail_.inbox'
+import { Route as AppGmailAnalyticsRouteImport } from './routes/_app.gmail_.analytics'
 import { Route as AppIntegrationsLinkedinSetupRouteImport } from './routes/_app.integrations.linkedin.setup'
 import { Route as AppIntegrationsLinkedinManageRouteImport } from './routes/_app.integrations.linkedin.manage'
 import { Route as AppIntegrationsInstagramSetupRouteImport } from './routes/_app.integrations.instagram.setup'
@@ -129,6 +130,11 @@ const AppGmailInboxRoute = AppGmailInboxRouteImport.update({
   path: '/gmail/inbox',
   getParentRoute: () => AppRoute,
 } as any)
+const AppGmailAnalyticsRoute = AppGmailAnalyticsRouteImport.update({
+  id: '/gmail_/analytics',
+  path: '/gmail/analytics',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppIntegrationsLinkedinSetupRoute =
   AppIntegrationsLinkedinSetupRouteImport.update({
     id: '/integrations/linkedin/setup',
@@ -182,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/gmail/analytics': typeof AppGmailAnalyticsRoute
   '/gmail/inbox': typeof AppGmailInboxRoute
   '/gmail/overview': typeof AppGmailOverviewRoute
   '/gmail/summaries': typeof AppGmailSummariesRoute
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/gmail/analytics': typeof AppGmailAnalyticsRoute
   '/gmail/inbox': typeof AppGmailInboxRoute
   '/gmail/overview': typeof AppGmailOverviewRoute
   '/gmail/summaries': typeof AppGmailSummariesRoute
@@ -236,6 +244,7 @@ export interface FileRoutesById {
   '/_app/workspace': typeof AppWorkspaceRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/register': typeof AuthRegisterRoute
+  '/_app/gmail_/analytics': typeof AppGmailAnalyticsRoute
   '/_app/gmail_/inbox': typeof AppGmailInboxRoute
   '/_app/gmail_/overview': typeof AppGmailOverviewRoute
   '/_app/gmail_/summaries': typeof AppGmailSummariesRoute
@@ -264,6 +273,7 @@ export interface FileRouteTypes {
     | '/workspace'
     | '/auth/login'
     | '/auth/register'
+    | '/gmail/analytics'
     | '/gmail/inbox'
     | '/gmail/overview'
     | '/gmail/summaries'
@@ -290,6 +300,7 @@ export interface FileRouteTypes {
     | '/workspace'
     | '/auth/login'
     | '/auth/register'
+    | '/gmail/analytics'
     | '/gmail/inbox'
     | '/gmail/overview'
     | '/gmail/summaries'
@@ -317,6 +328,7 @@ export interface FileRouteTypes {
     | '/_app/workspace'
     | '/auth/login'
     | '/auth/register'
+    | '/_app/gmail_/analytics'
     | '/_app/gmail_/inbox'
     | '/_app/gmail_/overview'
     | '/_app/gmail_/summaries'
@@ -470,6 +482,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppGmailInboxRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/gmail_/analytics': {
+      id: '/_app/gmail_/analytics'
+      path: '/gmail/analytics'
+      fullPath: '/gmail/analytics'
+      preLoaderRoute: typeof AppGmailAnalyticsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/integrations/linkedin/setup': {
       id: '/_app/integrations/linkedin/setup'
       path: '/integrations/linkedin/setup'
@@ -528,6 +547,7 @@ interface AppRouteChildren {
   AppOverviewRoute: typeof AppOverviewRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppWorkspaceRoute: typeof AppWorkspaceRoute
+  AppGmailAnalyticsRoute: typeof AppGmailAnalyticsRoute
   AppGmailInboxRoute: typeof AppGmailInboxRoute
   AppGmailOverviewRoute: typeof AppGmailOverviewRoute
   AppGmailSummariesRoute: typeof AppGmailSummariesRoute
@@ -552,6 +572,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppOverviewRoute: AppOverviewRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppWorkspaceRoute: AppWorkspaceRoute,
+  AppGmailAnalyticsRoute: AppGmailAnalyticsRoute,
   AppGmailInboxRoute: AppGmailInboxRoute,
   AppGmailOverviewRoute: AppGmailOverviewRoute,
   AppGmailSummariesRoute: AppGmailSummariesRoute,
